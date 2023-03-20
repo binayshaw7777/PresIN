@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="header" format="string" />
+    <attr name="inputEnabled" format="boolean" />
+    <attr name="invalidInput" format="boolean" />
+    <attr name="hint" format="string" />
+    <attr name="input" format="string" />
+    <attr name="endIcon" format="integer" />
+    <attr name="options" format="reference"/>
+    <attr name="minimumHeight" format="integer"/>
+    <attr name="multiLine" format="boolean" />
+
+    <attr name="FilterChips" format="reference" />
+
+    <declare-styleable name="EditTextCustomLayout">
+        <attr name="header" />
+        <attr name="inputEnabled" />
+        <attr name="invalidInput" />
+        <attr name="hint" />
+        <attr name="input" />
+        <attr name="endIcon" />
+        <attr name="minimumHeight" />
+        <attr name="multiLine"/>
+
+    </declare-styleable>
+
+    <declare-styleable name="SpinnerCustomLayout">
+        <attr name="header" />
+        <attr name="inputEnabled" />
+        <attr name="invalidInput" />
+        <attr name="hint" />
+        <attr name="input" />
+        <attr name="endIcon" />
+        <attr name="required_input" />
+    </declare-styleable>
+</resources>
