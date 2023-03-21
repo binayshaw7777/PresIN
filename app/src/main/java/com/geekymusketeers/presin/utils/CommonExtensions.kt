@@ -1,16 +1,28 @@
 package com.geekymusketeers.presin.utils
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Point
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
+import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.edit
 import com.geekymusketeers.presin.R
+import com.geekymusketeers.presin.utils.Logger.debugLog
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 fun Context.showToast(message: String, shortToast: Boolean = false) {
@@ -58,6 +70,8 @@ fun TextView.setStringWithColors(
     text = spannable
 }
 
+fun Any?.isNull() = this == null
+
 fun TextView.setStringWithColor(text: String, color: Int) {
     val spannable = SpannableString(text)
     spannable.setSpan(
@@ -68,6 +82,96 @@ fun TextView.setStringWithColor(text: String, color: Int) {
     )
     this.text = spannable
 }
+
+fun Context.showToast(message: String?, length: Int = Toast.LENGTH_SHORT) {
+    message?.let {
+        Toast.makeText(this, it, length).show()
+    }
+}
+
+fun Context.isNetworkAvailable(): Boolean {
+    val manager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        val capabilities = manager.getNetworkCapabilities(manager.activeNetwork)
+        if (capabilities != null) {
+            if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                return true
+            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                return true
+            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                return true
+            }
+        }
+    } else {
+        try {
+            val activeNetworkInfo = manager.activeNetworkInfo
+            if (activeNetworkInfo != null && activeNetworkInfo.isConnected) {
+                return true
+            }
+        } catch (e: Exception) {
+            e.debugLog()
+        }
+    }
+    return false
+}
+
+fun View.show() {
+    visibility = View.VISIBLE
+}
+
+fun View.hide() {
+    visibility = View.GONE
+}
+
+fun View.invisible() {
+    visibility = View.INVISIBLE
+}
+
+@Suppress("DEPRECATION")
+val Context.screenSize: Point
+    get() {
+        val wm = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val display = wm.defaultDisplay
+        val size = Point()
+        display.getSize(size)
+        return size
+    }
+
+fun <T> Context.openActivity(it: Class<T>, extras: Bundle.() -> Unit = {}) {
+    val intent = Intent(this, it)
+    intent.putExtras(Bundle().apply(extras))
+    startActivity(intent)
+
+    /*
+    Usage:
+    openActivity(MyActivity::class.java) {
+    putString("string.key", "string.value")
+    putInt("string.key", 43) }
+    */
+}
+
+//fun Context.createBottomSheet(): BottomSheetDialog {
+//    return BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
+//}
+//
+//fun Activity.createBottomSheet(): BottomSheetDialog {
+//    return BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
+//}
+
+fun View.setBottomSheet(bottomSheet: BottomSheetDialog) {
+    bottomSheet.behavior.state = BottomSheetBehavior.STATE_EXPANDED
+    bottomSheet.setContentView(this)
+    bottomSheet.create()
+    bottomSheet.show()
+}
+
+fun getCurrentDate(): String {
+    val dateFormat = SimpleDateFormat(Constants.DATE_FORMAT, Locale.getDefault())
+    val date = Date()
+    return dateFormat.format(date)
+}
+
+
 
 /**
  * An inline function to put the value into the shared preferences with their respective key.

@@ -11,6 +11,10 @@ object Logger {
         }
     }
 
+    fun Any.debugLog(tag: String? = "DEBUG_TAG") {
+        Log.d(tag, toString())
+    }
+
     fun debugLog(msg: String?) {
         if (BuildConfig.DEBUG) {
             Log.d("Log", msg!!)

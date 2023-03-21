@@ -3,6 +3,7 @@ package com.geekymusketeers.presin.base
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
+import com.geekymusketeers.presin.ui.authentication.login.LoginViewModel
 
 class ViewModelFactory : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
@@ -11,9 +12,9 @@ class ViewModelFactory : ViewModelProvider.Factory {
             // Get the Application object from extras
             val application = checkNotNull(extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY])
             when {
-//                isAssignableFrom(MainViewModel::class.java) -> {
-//                    MainViewModel(application)
-//                }
+                isAssignableFrom(LoginViewModel::class.java) -> {
+                    LoginViewModel(application)
+                }
                 else -> throw IllegalArgumentException("Unknown ViewModel class")
             }
         } as T

@@ -5,4 +5,14 @@
     <string name="error">Error</string>
     <string name="no_internet">No Internet</string>
     <string name="no_internet_message">You are offline</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="enter_your_registered_credentials">Enter your registered credentials</string>
+    <string name="login">Login</string>
+    <string name="dummy_your_email">youremail123@gmail.com</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="dummy_your_password">************</string>
+    <string name="dont_have_an_account">Don\'t have an account?</string>
+    <string name="create">Create</string>
 </resources>

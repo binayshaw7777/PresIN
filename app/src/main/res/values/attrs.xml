@@ -31,6 +31,12 @@
         <attr name="hint" />
         <attr name="input" />
         <attr name="endIcon" />
-        <attr name="required_input" />
     </declare-styleable>
+
+    <declare-styleable name="ButtonCustomLayout">
+        <attr name="header" />
+        <attr name="inputEnabled" />
+        <attr name="endIcon" />
+    </declare-styleable>
+
 </resources>

@@ -11,4 +11,6 @@
     <color name="edit_text_box_border">#BFBFBF</color>
     <color name="edit_text_box_background">#F2F2F2</color>
     <color name="hint_color">#656565</color>
+    <color name="button_disable_color">#B1B1B1</color>
+    <color name="button_enable_color">#006BFF</color>
 </resources>

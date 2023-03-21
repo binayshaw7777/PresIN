@@ -6,11 +6,13 @@ import android.text.Editable
 import android.text.InputFilter
 import android.text.InputType
 import android.text.TextWatcher
+import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.inputmethod.InputMethodManager
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doAfterTextChanged
 import com.geekymusketeers.presin.R
 import com.geekymusketeers.presin.databinding.LayoutCustomEditTextBinding
@@ -25,10 +27,14 @@ class CustomEditText @JvmOverloads constructor(
 
     private lateinit var binding: LayoutCustomEditTextBinding
     private var isRequired: Boolean = true
+    private var passwordVisible: Boolean = false
+    private val showPasswordResId: Int = R.drawable.pass_show
+    private val hidePasswordResId: Int = R.drawable.pass_hide
 
     init {
         initView(context, attrs)
     }
+
 
     private fun initView(context: Context, attrs: AttributeSet?) {
         binding = LayoutCustomEditTextBinding.inflate(LayoutInflater.from(context), this, true)
@@ -43,23 +49,41 @@ class CustomEditText @JvmOverloads constructor(
                 val isMultipleLine = getBoolean(R.styleable.EditTextCustomLayout_multiLine, false)
                 setHeader(header)
                 setEndDrawableIcon(endDrawableIcon)
-                seditTextBoxEnabled(inputEnabled)
+                setEditTextBoxEnabled(inputEnabled)
                 setHint(hint)
-                seditTextBox(input)
+                setEditTextBox(input)
                 if (isMultipleLine) {
                     switchToMultiLined()
                 }
                 if (minHeight != 0) {
                     setMinimHeight(minHeight)
                 }
-
             } finally {
                 recycle()
             }
         }
+        binding.apply {
+            editTextEndIcon.setOnClickListener {
+                hideKeyboard()
+                val currentTransformationMethod = editTextBox.transformationMethod
+                editTextEndIcon.setImageResource(if (passwordVisible) showPasswordResId else hidePasswordResId)
+                passwordVisible = passwordVisible.not()
+                val newTransformationMethod = if (passwordVisible) null else PasswordTransformationMethod()
+                editTextBox.text = editTextBox.text
+                editTextBox.setSelection(editTextBox.text?.length ?: 0)
+                if (currentTransformationMethod != newTransformationMethod) {
+                    editTextBox.transformationMethod = newTransformationMethod
+                }
+            }
+        }
     }
 
-    fun setHeader(header: String?) {
+    private fun hideKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
+    }
+
+    private fun setHeader(header: String?) {
         binding.editTextHeader.text = header
     }
 
@@ -69,7 +93,7 @@ class CustomEditText @JvmOverloads constructor(
         }
     }
 
-    fun switchToMultiLined() {
+    private fun switchToMultiLined() {
         binding.run {
             editTextBox.apply {
                 isSingleLine = false
@@ -80,31 +104,24 @@ class CustomEditText @JvmOverloads constructor(
         }
     }
 
-    fun setMinimHeight(height: Int) {
+    private fun setMinimHeight(height: Int) {
         binding.editTextBox.minimumHeight = height
     }
 
-    fun seditTextBoxEnabled(isEnabled: Boolean) {
+    private fun setEditTextBoxEnabled(isEnabled: Boolean) {
         binding.run {
             editTextBox.isEnabled = isEnabled
-            editTextBox.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    if (isEnabled) R.color.edit_text_box_border else R.color.text_color
-                )
-            )
-//            clInput.setBackgroundResource(if (isEnabled) R.drawable.rect_white_fill_grey_outline_5dp else R.drawable.rect_grey_fill_grey_outline_5dp)
         }
     }
 
-    fun setHint(hint: String?) {
+    private fun setHint(hint: String?) {
         binding.editTextBox.apply {
             this.hint = hint
-            setHintTextColor(ContextCompat.getColor(context, R.color.hint_color))
+//            setHintTextColor(ContextCompat.getColor(context, R.color.hint_color))
         }
     }
 
-    fun seditTextBox(text: String?) {
+    fun setEditTextBox(text: String?) {
         binding.editTextBox.setText(text)
     }
 
@@ -117,7 +134,7 @@ class CustomEditText @JvmOverloads constructor(
         binding.editTextBox.imeOptions = imeOption
     }
 
-    fun seditTextBoxType(inputType: Int) {
+    fun setEditTextBoxType(inputType: Int) {
         binding.editTextBox.inputType = inputType
     }
 
@@ -166,6 +183,11 @@ class CustomEditText @JvmOverloads constructor(
     fun setUserInputListener(listener: ((input: String) -> Unit)? = null) {
         binding.editTextBox.doAfterTextChanged {
             val input = it.toString().trim()
+            if (input.isEmpty()) {
+                binding.editTextBox.typeface = ResourcesCompat.getFont(context, R.font.montserrat_regular)
+            } else {
+                binding.editTextBox.typeface = ResourcesCompat.getFont(context, R.font.montserrat_medium)
+            }
             listener?.invoke(input)
         }
     }

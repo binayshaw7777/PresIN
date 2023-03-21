@@ -170,4 +170,16 @@
         <item name="android:fontFamily">@font/montserrat_bold</item>
     </style>
 
+
+    <!-- EditText Styles -->
+    <style name="EditTextHintStyle">
+        <item name="android:textColor">@color/hint_color</item>
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="EditTextTextStyle">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
 </resources>

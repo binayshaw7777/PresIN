@@ -5,6 +5,8 @@ interface AnalyticsData {
     interface ScreenName {
         companion object {
             const val MAIN_ACTIVITY = "MAIN_ACTIVITY"
+            const val LOGIN_FRAGMENT = "LOGIN_FRAGMENT"
+            const val SPLASH_FRAGMENT = "SPLASH_FRAGMENT"
         }
     }
 
