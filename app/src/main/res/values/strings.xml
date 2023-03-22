@@ -15,4 +15,9 @@
     <string name="dummy_your_password">************</string>
     <string name="dont_have_an_account">Don\'t have an account?</string>
     <string name="create">Create</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="forgot_password_question_mark">Forgot Password ?</string>
+    <string name="enter_your_registered_email">Enter your registered Email</string>
+    <string name="invalid_email">Email is not valid</string>
+    <string name="invalid_password">Password is not valid</string>
 </resources>

@@ -64,6 +64,18 @@
                 app:layout_constraintStart_toStartOf="@+id/email_input_edit_text"
                 app:layout_constraintTop_toBottomOf="@+id/email_input_edit_text" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/forgot_password_text_view"
+                style="@style/MontserratMedium16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/forgot_password_question_mark"
+                android:layout_marginTop="20dp"
+                android:padding="5dp"
+                android:textColor="@color/main_blue"
+                app:layout_constraintEnd_toEndOf="@+id/password_input_edit_text"
+                app:layout_constraintTop_toBottomOf="@+id/password_input_edit_text" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

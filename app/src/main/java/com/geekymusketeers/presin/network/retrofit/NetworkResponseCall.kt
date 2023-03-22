@@ -2,8 +2,10 @@ package com.geekymusketeers.presin.network.retrofit
 
 import com.geekymusketeers.presin.network.ApiError
 import com.geekymusketeers.presin.network.NetworkResponse
+import com.geekymusketeers.presin.utils.Logger
 import okhttp3.Request
 import okio.Timeout
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,9 +24,11 @@ class NetworkResponseCall<T>(
                         Response.success(NetworkResponse.Success(body))
                     )
                 } else {
+                    val errorBody = response.errorBody()?.string()
+                    val message = errorBody?.let { JSONObject(it).getString("message") }
                     callback.onResponse(
                         this@NetworkResponseCall,
-                        Response.success(NetworkResponse.Error(ApiError(status = code, message = response.message())))
+                        Response.success(NetworkResponse.Error(ApiError(status = code, message = message)))
                     )
                 }
             }

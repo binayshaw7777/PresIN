@@ -25,8 +25,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-fun Context.showToast(message: String, shortToast: Boolean = false) {
-    Toast.makeText(this, message, if (shortToast) Toast.LENGTH_SHORT else Toast.LENGTH_LONG).show()
+fun Context.showToast(message: String, shortToast: Boolean? = true) {
+    Toast.makeText(this, message, if (shortToast == true) Toast.LENGTH_SHORT else Toast.LENGTH_LONG).show()
 }
 
 fun View.setNonDuplicateClickListener(listener: View.OnClickListener?) {
