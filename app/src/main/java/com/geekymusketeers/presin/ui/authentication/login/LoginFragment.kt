@@ -97,13 +97,9 @@ class LoginFragment : BaseFragment() {
                 findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             }
             errorLiveData.observe(viewLifecycleOwner) {
-                handleError(it)
+                showErrorDialog(getString(R.string.error), it.message)
             }
         }
-    }
-
-    private fun handleError(apiError: ApiError) {
-        showErrorDialog(getString(R.string.error), apiError.message)
     }
 
     override fun onDestroy() {
