@@ -97,6 +97,7 @@ class LoginFragment : BaseFragment() {
                 findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             }
             errorLiveData.observe(viewLifecycleOwner) {
+                //Show an error
                 showErrorDialog(getString(R.string.error), it.message)
             }
         }
