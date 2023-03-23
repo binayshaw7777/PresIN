@@ -67,7 +67,7 @@ class LoginFragment : BaseFragment() {
                 secondTextView.apply {
                     text = context.getString(R.string.create)
                     setOnClickListener {
-                        findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+                        findNavController().navigate(R.id.action_loginFragment_to_userRegisterFragment)
                     }
                 }
             }
@@ -97,6 +97,7 @@ class LoginFragment : BaseFragment() {
                 findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             }
             errorLiveData.observe(viewLifecycleOwner) {
+                //Show an error
                 showErrorDialog(getString(R.string.error), it.message)
             }
         }
