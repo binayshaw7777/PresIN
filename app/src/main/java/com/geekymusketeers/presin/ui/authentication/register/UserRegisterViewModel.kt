@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.geekymusketeers.presin.base.BaseViewModel
 
-class RegisterViewModel(application: Application) : BaseViewModel(application) {
+class UserRegisterViewModel(application: Application) : BaseViewModel(application) {
 
     private val registerNameLiveData: MutableLiveData<String> by lazy { MutableLiveData() }
     private val registerEmailLiveData: MutableLiveData<String> by lazy { MutableLiveData() }
