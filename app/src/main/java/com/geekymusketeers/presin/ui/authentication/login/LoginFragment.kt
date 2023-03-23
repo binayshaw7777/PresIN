@@ -90,7 +90,7 @@ class LoginFragment : BaseFragment() {
                 requireContext().showToast(message)
             }
             loginResponse.observe(viewLifecycleOwner) {
-                val jwtToken = it.token //save this
+                val jwtToken = it.token
                 val message = it.message
                 Logger.debugLog("JWT: $jwtToken")
                 requireContext().showToast(message)
