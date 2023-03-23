@@ -3,7 +3,9 @@ package com.geekymusketeers.presin.base
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
-import com.geekymusketeers.presin.ui.authentication.forgot_password.ForgotPasswordViewModel
+import com.geekymusketeers.presin.ui.authentication.forgot_password.email_request.ForgotPasswordViewModel
+import com.geekymusketeers.presin.ui.authentication.forgot_password.set_new_password.SetNewPasswordViewModel
+import com.geekymusketeers.presin.ui.authentication.forgot_password.verify_otp.VerifyOTPViewModel
 import com.geekymusketeers.presin.ui.authentication.login.LoginViewModel
 
 class ViewModelFactory : ViewModelProvider.Factory {
@@ -18,6 +20,12 @@ class ViewModelFactory : ViewModelProvider.Factory {
                 }
                 isAssignableFrom(ForgotPasswordViewModel::class.java) -> {
                     ForgotPasswordViewModel(application)
+                }
+                isAssignableFrom(VerifyOTPViewModel::class.java) -> {
+                    VerifyOTPViewModel(application)
+                }
+                isAssignableFrom(SetNewPasswordViewModel::class.java) -> {
+                    SetNewPasswordViewModel(application)
                 }
                 else -> throw IllegalArgumentException("Unknown ViewModel class")
             }

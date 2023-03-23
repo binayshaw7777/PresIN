@@ -43,4 +43,13 @@
     <string name="scanning_face_details">Scanning Face Details</string>
     <string name="position_your_face_in_the_camera_frame">Position your face in the camera frame</string>
     <string name="send_reset_link">Send reset link</string>
+    <string name="verify_otp">Verify OTP</string>
+    <string name="we_ve_sent_an_otp_in_your_email">We’ve sent an OTP in your email</string>
+    <string name="didnt_receive_any_mail">Didn’t receive any mail?</string>
+    <string name="resend">Resend</string>
+    <string name="wrong_otp_description">The OTP you entered is wrong or invalid</string>
+    <string name="wrong_otp_title">Wrong OTP</string>
+    <string name="set_new_password">Set new password</string>
+    <string name="you_must_enter_a_different_password">You must enter a different password</string>
+    <string name="success_your_new_has__been_saved">Success! Your new password has been saved.</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.geekymusketeers.presin.ui.authentication.forgot_password
+package com.geekymusketeers.presin.ui.authentication.forgot_password.email_request
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -31,7 +31,7 @@ class ForgotPasswordFragment : BaseFragment() {
         initObservers()
         initViews()
         clickHandlers()
-        // Inflate the layout for this fragment
+
         return binding.root
     }
 
@@ -65,7 +65,11 @@ class ForgotPasswordFragment : BaseFragment() {
             forgotPasswordResponse.observe(viewLifecycleOwner) {
                 val message = it.message
                 requireContext().showToast(message)
-                findNavController().popBackStack()
+                val otp = forgotPasswordViewModel.getOTP()
+                otp?.let { generated_otp ->
+                    val action = ForgotPasswordFragmentDirections.actionForgotPasswordFragmentToVerifyOTPFragment(generated_otp, it.token, it.userID)
+                    findNavController().navigate(action)
+                }
             }
         }
     }

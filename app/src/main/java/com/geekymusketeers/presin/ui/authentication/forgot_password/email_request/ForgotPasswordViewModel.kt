@@ -1,4 +1,4 @@
-package com.geekymusketeers.presin.ui.authentication.forgot_password
+package com.geekymusketeers.presin.ui.authentication.forgot_password.email_request
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
@@ -9,8 +9,10 @@ import com.geekymusketeers.presin.network.onSuccess
 import com.geekymusketeers.presin.ui.authentication.forgot_password.models.ForgotPasswordRequest
 import com.geekymusketeers.presin.ui.authentication.forgot_password.models.ForgotPasswordResponse
 import com.geekymusketeers.presin.utils.Validator.Companion.isValidEmail
+import com.geekymusketeers.presin.utils.generateOTP
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 
 
 class ForgotPasswordViewModel(application: Application) : BaseViewModel(application) {
@@ -20,6 +22,7 @@ class ForgotPasswordViewModel(application: Application) : BaseViewModel(applicat
     val enableSubmitButtonLiveData: MutableLiveData<Boolean> by lazy { MutableLiveData() }
     private val emailLiveData: MutableLiveData<String> by lazy { MutableLiveData() }
     val forgotPasswordResponse: MutableLiveData<ForgotPasswordResponse> by lazy { MutableLiveData() }
+    private val generatedOTP: MutableLiveData<Int> by lazy { MutableLiveData() }
 
     fun setEmail(email: String) {
         emailLiveData.value = email
@@ -32,7 +35,10 @@ class ForgotPasswordViewModel(application: Application) : BaseViewModel(applicat
             isEmailValid.postValue(false)
             return
         }
-        val forgotPasswordRequest = ForgotPasswordRequest(email)
+
+        val otp = generateOTP()
+        generatedOTP.value = otp
+        val forgotPasswordRequest = ForgotPasswordRequest(email, otp)
         viewModelScope.launch(Dispatchers.IO) {
             val response = processCoroutine({ repository.resetPassword(forgotPasswordRequest) })
             response.onSuccess {
@@ -43,6 +49,9 @@ class ForgotPasswordViewModel(application: Application) : BaseViewModel(applicat
         }
     }
 
+    fun getOTP() : Int? {
+        return generatedOTP.value?.toInt()
+    }
 
     private fun updateSubmitButtonState() {
         enableSubmitButtonLiveData.value = emailLiveData.value.isNullOrEmpty().not()
