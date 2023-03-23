@@ -2,6 +2,8 @@ package com.geekymusketeers.presin.network.retrofit
 
 import com.geekymusketeers.presin.models.*
 import com.geekymusketeers.presin.network.NetworkResponse
+import com.geekymusketeers.presin.ui.authentication.forgot_password.models.ForgotPasswordRequest
+import com.geekymusketeers.presin.ui.authentication.forgot_password.models.ForgotPasswordResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -19,6 +21,9 @@ interface ApiService {
 
     @POST("users/login")
     suspend fun loginUser(@Body userLoginRequest: UserLoginRequest): NetworkResponse<UserAuthResponse>
+
+    @POST("users/reset-password")
+    suspend fun resetPassword(@Body forgotPasswordRequest: ForgotPasswordRequest): NetworkResponse<ForgotPasswordResponse>
 
 //    @GET("304c90c8-d6bb-470b-b4bf-81c24a930705")
 //    suspend fun requestResidentsList(

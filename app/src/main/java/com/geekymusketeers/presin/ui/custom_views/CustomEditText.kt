@@ -13,10 +13,12 @@ import android.view.LayoutInflater
 import android.view.inputmethod.InputMethodManager
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import com.geekymusketeers.presin.R
 import com.geekymusketeers.presin.databinding.LayoutCustomEditTextBinding
 import com.geekymusketeers.presin.utils.setNonDuplicateClickListener
+import com.geekymusketeers.presin.utils.show
 
 
 class CustomEditText @JvmOverloads constructor(
@@ -89,7 +91,9 @@ class CustomEditText @JvmOverloads constructor(
 
     fun setEndDrawableIcon(drawable: Drawable?) {
         drawable?.let {
-            binding.editTextEndIcon.setImageDrawable(it)
+            binding.editTextEndIcon.apply {
+                setImageDrawable(it)
+            }
         }
     }
 

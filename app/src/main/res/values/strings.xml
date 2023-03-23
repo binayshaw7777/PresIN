@@ -42,4 +42,5 @@
     <string name="you_may_skip_this_and_add_it_later">You may skip this and add it later</string>
     <string name="scanning_face_details">Scanning Face Details</string>
     <string name="position_your_face_in_the_camera_frame">Position your face in the camera frame</string>
+    <string name="send_reset_link">Send reset link</string>
 </resources>

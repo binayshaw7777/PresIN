@@ -71,6 +71,7 @@ class LoginFragment : BaseFragment() {
                     }
                 }
             }
+            loginButton.setEndDrawableIcon(ResourcesCompat.getDrawable(resources, R.drawable.next_arrow, null))
         }
     }
 

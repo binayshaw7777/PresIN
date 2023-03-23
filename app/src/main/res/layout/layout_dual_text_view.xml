@@ -20,7 +20,7 @@
         style="@style/MontserratSemiBold14sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:padding="12dp"
         android:textColor="@color/button_enable_color"
         app:layout_constraintBottom_toBottomOf="@+id/first_text_view"
         app:layout_constraintStart_toEndOf="@+id/first_text_view"

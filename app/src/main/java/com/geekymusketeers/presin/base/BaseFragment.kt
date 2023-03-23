@@ -2,26 +2,44 @@ package com.geekymusketeers.presin.base
 
 import android.app.Dialog
 import android.content.Context
+import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
 import com.geekymusketeers.presin.R
 import com.geekymusketeers.presin.network.ApiError
+import com.geekymusketeers.presin.utils.Logger
 import java.io.IOException
 
 /**
  * Base Fragment for all the Fragments present in the Project. Provides some common functionality for all the Fragments.
  */
 abstract class BaseFragment : Fragment() {
-    private lateinit var progressDialogue: Dialog
+
+    private lateinit var progressDialog: Dialog
 
 //    override fun onPause() {
 //        hideProgress()
 //        super.onPause()
 //    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Handle the back navigation here
+                Logger.debugLog("Back is pressed")
+                NavHostFragment.findNavController(this@BaseFragment).navigateUp()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
 
     /**
      * Generic function to get parent activity of the fragment. Since the function is inlined, no reflection is needed and normal operators like !is and as are now available for you to use
