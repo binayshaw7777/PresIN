@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.authentication.register.OrganizationRegisterFragment">
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="10dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/register_title_text_view"
+                style="@style/MontserratMedium24sp"
+                android:layout_width="0dp"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+                android:text="@string/your_organization"
+                android:textColor="@color/text_color"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/register_subtext_text_view"
+                style="@style/MontserratRegular14sp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/tell_us_about_your_current_organization"
+                android:textColor="@color/hint_color"
+                app:layout_constraintStart_toStartOf="@+id/register_title_text_view"
+                app:layout_constraintTop_toBottomOf="@+id/register_title_text_view" />
+
+            <com.geekymusketeers.presin.ui.custom_views.CustomEditText
+                android:id="@+id/role_input_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                app:header="@string/role"
+                app:hint="@string/dummy_your_role"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/register_subtext_text_view"
+                app:layout_constraintTop_toBottomOf="@+id/register_subtext_text_view" />
+
+            <com.geekymusketeers.presin.ui.custom_views.CustomEditText
+                android:id="@+id/admin_input_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:header="@string/admin"
+                app:hint="@string/dummy_your_admin"
+                app:layout_constraintEnd_toEndOf="@+id/role_input_edit_text"
+                app:layout_constraintStart_toStartOf="@+id/role_input_edit_text"
+                app:layout_constraintTop_toBottomOf="@+id/role_input_edit_text" />
+
+            <com.geekymusketeers.presin.ui.custom_views.CustomEditText
+                android:id="@+id/organization_input_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:header="@string/organization"
+                app:hint="@string/dummy_your_organization"
+                app:layout_constraintEnd_toEndOf="@+id/admin_input_edit_text"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/admin_input_edit_text"
+                app:layout_constraintTop_toBottomOf="@+id/admin_input_edit_text" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:progressBackgroundTint="@color/hint_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/center_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_percent="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/back_button"
+        style="@style/MontserratMedium16sp"
+        android:layout_width="0dp"
+        android:layout_height="61dp"
+        android:layout_marginVertical="25dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/back_button_bg"
+        android:text="@string/back"
+        android:textAllCaps="false"
+        android:textColor="@color/text_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/center_guideline"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.geekymusketeers.presin.ui.custom_views.CustomButton
+        android:id="@+id/organization_button"
+        style="@style/MontserratMedium22sp"
+        android:layout_width="0dp"
+        android:layout_height="61dp"
+        android:layout_marginVertical="25dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="20dp"
+        app:header="Next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/center_guideline" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

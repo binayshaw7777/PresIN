@@ -67,7 +67,7 @@ class LoginFragment : BaseFragment() {
                 secondTextView.apply {
                     text = context.getString(R.string.create)
                     setOnClickListener {
-                        findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+                        findNavController().navigate(R.id.action_loginFragment_to_userRegisterFragment)
                     }
                 }
             }

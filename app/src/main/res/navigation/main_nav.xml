@@ -20,9 +20,6 @@
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
-            android:id="@+id/action_loginFragment_to_registerFragment"
-            app:destination="@id/registerFragment" />
-        <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:launchSingleTop="true"
@@ -30,12 +27,10 @@
         <action
             android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
             app:destination="@id/forgotPasswordFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_userRegisterFragment"
+            app:destination="@id/userRegisterFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/registerFragment"
-        android:name="com.geekymusketeers.presin.ui.authentication.register.RegisterFragment"
-        android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.geekymusketeers.presin.ui.main_screens.HomeFragment"
@@ -46,4 +41,49 @@
         android:name="com.geekymusketeers.presin.ui.authentication.forgot_password.ForgotPasswordFragment"
         android:label="fragment_forgot_password"
         tools:layout="@layout/fragment_forgot_password" />
+    <fragment
+        android:id="@+id/userRegisterFragment"
+        android:name="com.geekymusketeers.presin.ui.authentication.register.UserRegisterFragment"
+        android:label="fragment_user_register"
+        tools:layout="@layout/fragment_user_register" >
+        <action
+            android:id="@+id/action_userRegisterFragment_to_organizationRegisterFragment"
+            app:destination="@id/organizationRegisterFragment" />
+        <action
+            android:id="@+id/action_userRegisterFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/organizationRegisterFragment"
+        android:name="com.geekymusketeers.presin.ui.authentication.register.OrganizationRegisterFragment"
+        android:label="fragment_organization_register"
+        tools:layout="@layout/fragment_organization_register" >
+        <action
+            android:id="@+id/action_organizationRegisterFragment_to_userRegisterFragment"
+            app:destination="@id/userRegisterFragment" />
+        <action
+            android:id="@+id/action_organizationRegisterFragment_to_avatarRegisterFragment"
+            app:destination="@id/avatarRegisterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/avatarRegisterFragment"
+        android:name="com.geekymusketeers.presin.ui.authentication.register.AvatarRegisterFragment"
+        android:label="fragment_avatar_register"
+        tools:layout="@layout/fragment_avatar_register" >
+        <action
+            android:id="@+id/action_avatarRegisterFragment_to_faceScanRegisterFragment"
+            app:destination="@id/faceScanRegisterFragment" />
+        <action
+            android:id="@+id/action_avatarRegisterFragment_to_organizationRegisterFragment"
+            app:destination="@id/organizationRegisterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/faceScanRegisterFragment"
+        android:name="com.geekymusketeers.presin.ui.authentication.register.FaceScanRegisterFragment"
+        android:label="fragment_face_scan_register"
+        tools:layout="@layout/fragment_face_scan_register" >
+        <action
+            android:id="@+id/action_faceScanRegisterFragment_to_avatarRegisterFragment"
+            app:destination="@id/avatarRegisterFragment" />
+    </fragment>
 </navigation>

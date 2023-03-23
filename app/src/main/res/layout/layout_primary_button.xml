@@ -18,7 +18,8 @@
             android:id="@+id/linearLayoutCompat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
+            android:paddingHorizontal="20dp"
+            android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -38,8 +39,8 @@
                 android:id="@+id/button_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
-                app:srcCompat="@drawable/next_arrow" />
+                android:visibility="gone"
+                android:layout_marginStart="14dp"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
