@@ -71,6 +71,9 @@ class ForgotPasswordFragment : BaseFragment() {
                     findNavController().navigate(action)
                 }
             }
+            errorLiveData.observe(viewLifecycleOwner) {
+                showErrorDialog(getString(R.string.error), it.message)
+            }
         }
     }
 

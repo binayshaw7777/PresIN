@@ -50,6 +50,7 @@ class SetNewPasswordFragment : BaseFragment() {
 
     private fun initViews() {
         binding.run {
+
             passwordInputEditText.apply {
                 setUserInputListener {
                     setNewPasswordViewModel.setPassword(it)

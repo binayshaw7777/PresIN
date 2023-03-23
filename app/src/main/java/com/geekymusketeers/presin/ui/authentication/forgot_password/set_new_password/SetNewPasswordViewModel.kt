@@ -48,6 +48,6 @@ class SetNewPasswordViewModel(application: Application) : BaseViewModel(applicat
     }
 
     private fun updateSubmitButtonState() {
-        enableSubmitButtonLiveData.value = passwordLiveData.value.isNull().not()
+        enableSubmitButtonLiveData.value = passwordLiveData.value.isNullOrEmpty().not()
     }
 }

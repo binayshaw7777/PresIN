@@ -5,14 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import com.geekymusketeers.presin.base.BaseViewModel
 import com.geekymusketeers.presin.utils.isNull
 
-
 class VerifyOTPViewModel(application: Application) : BaseViewModel(application) {
     private val otpLiveData: MutableLiveData<Int> by lazy { MutableLiveData() }
     val isOtpCorrect: MutableLiveData<Boolean> by lazy { MutableLiveData() }
     val enableSubmitButtonLiveData: MutableLiveData<Boolean> by lazy { MutableLiveData() }
 
     fun setOTP(otp: String) {
-        otpLiveData.value = otp.toInt()
+        if (otp.isNotEmpty()) {
+            otpLiveData.value = otp.toInt()
+        }
         updateSubmitButtonState()
     }
 
@@ -22,6 +23,14 @@ class VerifyOTPViewModel(application: Application) : BaseViewModel(application) 
     }
 
     private fun updateSubmitButtonState() {
-        enableSubmitButtonLiveData.value = otpLiveData.value.isNull().not()
+        val otp = otpLiveData.value
+        val otpIsNotNull = otp.isNull().not()
+
+        if (otpIsNotNull && otp in 1000..9999) {
+            enableSubmitButtonLiveData.value = true
+            return
+        }
+
+        enableSubmitButtonLiveData.value = false
     }
 }

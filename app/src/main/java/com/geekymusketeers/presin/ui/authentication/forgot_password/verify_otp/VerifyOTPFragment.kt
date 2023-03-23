@@ -1,6 +1,8 @@
 package com.geekymusketeers.presin.ui.authentication.forgot_password.verify_otp
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,9 +57,20 @@ class VerifyOTPFragment : BaseFragment() {
                     }
                 }
             }
-            otpInput.setUserInputListener {
-                verifyOTPViewModel.setOTP(it)
-            }
+//            otpInput.setUserInputListener {
+//                verifyOTPViewModel.setOTP(it)
+//            }
+            otpInput.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                }
+
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                }
+
+                override fun afterTextChanged(p0: Editable?) {
+                    verifyOTPViewModel.setOTP(p0.toString())
+                }
+            })
         }
     }
 
