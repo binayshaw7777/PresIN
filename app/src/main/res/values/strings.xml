@@ -60,4 +60,7 @@
     <string name="empty_admin">Please select whether you are Admin or not</string>
     <string name="empty_organization">Please select the Organization</string>
     <string name="empty_face">Please scan you face properly</string>
+    <string name="skip">Skip</string>
+    <string name="next">Next</string>
+    <string name="avatar_error">Avatar cannot be set</string>
 </resources>

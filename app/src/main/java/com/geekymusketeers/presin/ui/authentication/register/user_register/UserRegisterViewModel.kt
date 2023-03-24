@@ -44,10 +44,10 @@ class UserRegisterViewModel(application: Application) : BaseViewModel(applicatio
 
     fun userRegistration() {
 
-        val name: String = registerNameLiveData.value.toString().trim().lowercase()
+        val name: String = registerNameLiveData.value.toString().trim()
         val email: String = registerEmailLiveData.value.toString().trim().lowercase()
-        val phone: String = registerPhoneNumberLiveData.value.toString().trim().lowercase()
-        val password: String = registerPasswordLiveData.value.toString().trim().lowercase()
+        val phone: String = registerPhoneNumberLiveData.value.toString().trim()
+        val password: String = registerPasswordLiveData.value.toString().trim()
 
 
         if (name.isValidName().not()) {
@@ -68,10 +68,9 @@ class UserRegisterViewModel(application: Application) : BaseViewModel(applicatio
         }
         val user = User(
             name = name,
-            email =email,
+            email = email,
             phone = phone,
             password = password,
-            isAdmin = false,
             role = "",
             organization = "",
             faceEmbeddings = "",

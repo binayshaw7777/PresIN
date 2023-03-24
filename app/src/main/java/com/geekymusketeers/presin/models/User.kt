@@ -11,7 +11,7 @@ data class User(
     @SerializedName("email") var email: String,
     @SerializedName("password") var password: String,
     @SerializedName("phone") var phone: String,
-    @SerializedName("isAdmin") var isAdmin: Boolean,
+    @SerializedName("isAdmin") var isAdmin: Boolean = false,
     @SerializedName("role") var role: String,
     @SerializedName("organization") var organization: String,
     @SerializedName("createdAt") var createdAt: String = "",

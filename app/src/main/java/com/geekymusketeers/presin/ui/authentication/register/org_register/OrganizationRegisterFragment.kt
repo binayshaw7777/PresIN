@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.geekymusketeers.presin.R
 import com.geekymusketeers.presin.analytics.AnalyticsData
 import com.geekymusketeers.presin.base.BaseFragment
@@ -18,6 +19,7 @@ import com.geekymusketeers.presin.utils.showToast
 
 class OrganizationRegisterFragment : BaseFragment() {
 
+    private val args: OrganizationRegisterFragmentArgs by navArgs()
     private var _binding: FragmentOrganizationRegisterBinding? = null
     private val binding get() = _binding!!
     private val organizationViewModel: OrganizationRegisterViewModel by viewModels {
@@ -27,19 +29,27 @@ class OrganizationRegisterFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentOrganizationRegisterBinding.inflate(layoutInflater, container, false)
 
         initObservers()
         initView()
+        clickHandlers()
+
         return binding.root
+    }
+
+    private fun clickHandlers() {
+        binding.organizationButton.setOnClickListener {
+            organizationViewModel.organizationRegister(args.UserObject)
+        }
     }
 
     private fun initView() {
         binding.run {
-            organizationButton.setOnClickListener {
-                findNavController().navigate(R.id.action_organizationRegisterFragment_to_avatarRegisterFragment)
-            }
+//            organizationButton.setOnClickListener {
+//                findNavController().navigate(R.id.action_organizationRegisterFragment_to_avatarRegisterFragment)
+//            }
             roleInputEditText.apply {
                 setUserInputListener {
                     organizationViewModel.registerRole(it)
@@ -80,17 +90,17 @@ class OrganizationRegisterFragment : BaseFragment() {
                 val message = getString(R.string.empty_role)
                 requireContext().showToast(message)
             }
-            isValidAdmin.observe(viewLifecycleOwner) {
-                val message = getString(R.string.empty_admin)
-                requireContext().showToast(message)
-            }
+//            isValidAdmin.observe(viewLifecycleOwner) {
+//                val message = getString(R.string.empty_admin)
+//                requireContext().showToast(message)
+//            }
             isValidOrganization.observe(viewLifecycleOwner) {
                 val message = getString(R.string.empty_organization)
                 requireContext().showToast(message)
             }
-            errorLiveData.observe(viewLifecycleOwner) {
-                //Show an error message
-                showErrorDialog(getString(R.string.error), it.message)
+            userLiveData.observe(viewLifecycleOwner){
+                val action = OrganizationRegisterFragmentDirections.actionOrganizationRegisterFragmentToAvatarRegisterFragment(it)
+                findNavController().navigate(action)
             }
         }
     }

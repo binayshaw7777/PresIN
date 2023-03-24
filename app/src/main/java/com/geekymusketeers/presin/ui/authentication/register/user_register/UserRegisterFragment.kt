@@ -27,7 +27,7 @@ class UserRegisterFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentUserRegisterBinding.inflate(layoutInflater, container, false)
 
         handleOperation()
@@ -78,7 +78,7 @@ class UserRegisterFragment : BaseFragment() {
                 secondTextView.apply {
                     text = context.getString(R.string.create)
                     setOnClickListener {
-                        findNavController().navigate(R.id.action_userRegisterFragment_to_loginFragment)
+                        findNavController().popBackStack()
                     }
                 }
             }
@@ -110,7 +110,8 @@ class UserRegisterFragment : BaseFragment() {
                 requireContext().showToast(message)
             }
             userLiveData.observe(viewLifecycleOwner) {
-
+                val action = UserRegisterFragmentDirections.actionUserRegisterFragmentToOrganizationRegisterFragment(it)
+                findNavController().navigate(action)
             }
         }
     }

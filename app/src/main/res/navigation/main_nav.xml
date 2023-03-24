@@ -31,8 +31,9 @@
         <action
             android:id="@+id/action_loginFragment_to_userRegisterFragment"
             app:destination="@id/userRegisterFragment"
-            app:popUpToInclusive="true"
-            app:launchSingleTop="true" />
+            app:popUpToInclusive="false"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/loginFragment"/>
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -57,10 +58,9 @@
         tools:layout="@layout/fragment_user_register" >
         <action
             android:id="@+id/action_userRegisterFragment_to_organizationRegisterFragment"
-            app:destination="@id/organizationRegisterFragment" />
-        <action
-            android:id="@+id/action_userRegisterFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/organizationRegisterFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/userRegisterFragment"/>
 
     </fragment>
     <fragment
@@ -69,11 +69,10 @@
         android:label="fragment_organization_register"
         tools:layout="@layout/fragment_organization_register" >
         <action
-            android:id="@+id/action_organizationRegisterFragment_to_userRegisterFragment"
-            app:destination="@id/userRegisterFragment" />
-        <action
             android:id="@+id/action_organizationRegisterFragment_to_avatarRegisterFragment"
-            app:destination="@id/avatarRegisterFragment" />
+            app:destination="@id/avatarRegisterFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/organizationRegisterFragment"/>
         <argument
             android:name="UserObject"
             app:argType="com.geekymusketeers.presin.models.User" />
@@ -85,10 +84,9 @@
         tools:layout="@layout/fragment_avatar_register" >
         <action
             android:id="@+id/action_avatarRegisterFragment_to_faceScanRegisterFragment"
-            app:destination="@id/faceScanRegisterFragment" />
-        <action
-            android:id="@+id/action_avatarRegisterFragment_to_organizationRegisterFragment"
-            app:destination="@id/organizationRegisterFragment" />
+            app:destination="@id/faceScanRegisterFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/avatarRegisterFragment"/>
         <argument
             android:name="UserObject"
             app:argType="com.geekymusketeers.presin.models.User" />
@@ -98,9 +96,6 @@
         android:name="com.geekymusketeers.presin.ui.authentication.register.face_scan_register.FaceScanRegisterFragment"
         android:label="fragment_face_scan_register"
         tools:layout="@layout/fragment_face_scan_register" >
-        <action
-            android:id="@+id/action_faceScanRegisterFragment_to_avatarRegisterFragment"
-            app:destination="@id/avatarRegisterFragment" />
         <argument
             android:name="UserObject"
             app:argType="com.geekymusketeers.presin.models.User" />
