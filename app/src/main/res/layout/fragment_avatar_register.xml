@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.authentication.register.AvatarRegisterFragment">
+    tools:context=".ui.authentication.register.avatar_register.AvatarRegisterFragment">
 
 
     <ScrollView
@@ -45,14 +45,15 @@
 
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="wrap_content"
+                android:id="@+id/add_avatar"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="68dp"
+                android:layout_marginHorizontal="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.415"
-                app:layout_constraintStart_toStartOf="@+id/register_subtext_text_view"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/register_subtext_text_view"
-                app:srcCompat="@drawable/image_preview" />
+                app:srcCompat="@drawable/image_placeholder" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -96,14 +97,15 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.geekymusketeers.presin.ui.custom_views.CustomButton
-        android:id="@+id/add_avatar_button"
+        android:id="@+id/skip_or_next_button"
         style="@style/MontserratMedium22sp"
         android:layout_width="0dp"
         android:layout_height="61dp"
         android:layout_marginVertical="25dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="20dp"
-        app:header="Skip"
+        app:header="@string/skip"
+        app:inputEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/center_guideline" />

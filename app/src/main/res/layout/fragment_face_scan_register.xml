@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.authentication.register.FaceScanRegisterFragment">
+    tools:context=".ui.authentication.register.face_scan_register.FaceScanRegisterFragment">
 
     <ScrollView
         android:layout_width="0dp"
@@ -45,13 +45,13 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/addFace"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/register_subtext_text_view"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/register_subtext_text_view"
-                app:srcCompat="@drawable/image_preview" />
+                app:srcCompat="@drawable/image_placeholder" />
 
             <com.geekymusketeers.presin.ui.custom_views.CustomButton
                 android:id="@+id/add_face_button"
@@ -106,7 +106,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.geekymusketeers.presin.ui.custom_views.CustomButton
-        android:id="@+id/submit_face_button"
+        android:id="@+id/submit_button"
         style="@style/MontserratMedium22sp"
         android:layout_width="0dp"
         android:layout_height="61dp"

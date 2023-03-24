@@ -52,4 +52,15 @@
     <string name="set_new_password">Set new password</string>
     <string name="you_must_enter_a_different_password">You must enter a different password</string>
     <string name="success_your_new_has__been_saved">Success! Your new password has been saved.</string>
+    <string name="empty_name">Please Enter your Name</string>
+    <string name="empty_email">Please Enter your Email</string>
+    <string name="empty_phone">Please Enter your Phone Number</string>
+    <string name="empty_password">Please Enter your Password</string>
+    <string name="empty_role">Please select the Role</string>
+    <string name="empty_admin">Please select whether you are Admin or not</string>
+    <string name="empty_organization">Please select the Organization</string>
+    <string name="empty_face">Please scan you face properly</string>
+    <string name="skip">Skip</string>
+    <string name="next">Next</string>
+    <string name="avatar_error">Avatar cannot be set</string>
 </resources>
