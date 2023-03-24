@@ -41,6 +41,7 @@ class LoginFragment : BaseFragment() {
 
     private fun clickHandlers() {
         binding.loginButton.setOnClickListener {
+            binding.loginButton.showButtonProgress()
             loginViewModel.loginUser()
         }
         binding.forgotPasswordTextView.setOnClickListener {
@@ -67,10 +68,11 @@ class LoginFragment : BaseFragment() {
                 secondTextView.apply {
                     text = context.getString(R.string.create)
                     setOnClickListener {
-                        findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+                        findNavController().navigate(R.id.action_loginFragment_to_userRegisterFragment)
                     }
                 }
             }
+            loginButton.setEndDrawableIcon(ResourcesCompat.getDrawable(resources, R.drawable.next_arrow, null))
         }
     }
 
@@ -82,21 +84,26 @@ class LoginFragment : BaseFragment() {
                 binding.loginButton.setButtonEnabled(it)
             }
             isEmailValid.observe(viewLifecycleOwner) {
+                binding.loginButton.hideButtonProgress()
                 val message = getString(R.string.invalid_email)
                 requireContext().showToast(message)
             }
             isPasswordValid.observe(viewLifecycleOwner) {
+                binding.loginButton.hideButtonProgress()
                 val message = getString(R.string.invalid_password)
                 requireContext().showToast(message)
             }
             loginResponse.observe(viewLifecycleOwner) {
-                val jwtToken = it.token //save this
+                binding.loginButton.hideButtonProgress()
+                val jwtToken = it.token
                 val message = it.message
                 Logger.debugLog("JWT: $jwtToken")
                 requireContext().showToast(message)
                 findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             }
             errorLiveData.observe(viewLifecycleOwner) {
+                //Show an error
+                binding.loginButton.hideButtonProgress()
                 showErrorDialog(getString(R.string.error), it.message)
             }
         }

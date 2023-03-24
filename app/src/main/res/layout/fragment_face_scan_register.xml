@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.authentication.register.face_scan_register.FaceScanRegisterFragment">
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="10dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/register_title_text_view"
+                style="@style/MontserratMedium24sp"
+                android:layout_width="0dp"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+                android:text="@string/scanning_face_details"
+                android:textColor="@color/text_color"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/register_subtext_text_view"
+                style="@style/MontserratRegular14sp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/position_your_face_in_the_camera_frame"
+                android:textColor="@color/hint_color"
+                app:layout_constraintStart_toStartOf="@+id/register_title_text_view"
+                app:layout_constraintTop_toBottomOf="@+id/register_title_text_view" />
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/addFace"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/register_subtext_text_view"
+                app:srcCompat="@drawable/image_placeholder" />
+
+            <com.geekymusketeers.presin.ui.custom_views.CustomButton
+                android:id="@+id/add_face_button"
+                style="@style/MontserratMedium22sp"
+                android:layout_width="wrap_content"
+                android:layout_height="57dp"
+                android:layout_marginVertical="25dp"
+                app:header="Add face"
+                app:layout_constraintEnd_toEndOf="@+id/addFace"
+                app:layout_constraintStart_toStartOf="@+id/addFace"
+                app:layout_constraintTop_toBottomOf="@+id/addFace" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:progressBackgroundTint="@color/hint_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/center_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_percent="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/back_button"
+        style="@style/MontserratMedium16sp"
+        android:layout_width="0dp"
+        android:layout_height="61dp"
+        android:layout_marginVertical="25dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/back_button_bg"
+        android:text="@string/back"
+        android:textAllCaps="false"
+        android:textColor="@color/text_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/center_guideline"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.geekymusketeers.presin.ui.custom_views.CustomButton
+        android:id="@+id/submit_button"
+        style="@style/MontserratMedium22sp"
+        android:layout_width="0dp"
+        android:layout_height="61dp"
+        android:layout_marginVertical="25dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="20dp"
+        app:header="Submit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/center_guideline" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

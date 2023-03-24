@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.authentication.forgot_password.email_request.ForgotPasswordFragment">
+    tools:context=".ui.authentication.forgot_password.verify_otp.VerifyOTPFragment">
 
     <ScrollView
         android:layout_width="0dp"
@@ -26,7 +26,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/forgot_password"
+                android:text="@string/verify_otp"
                 android:textColor="@color/text_color"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -37,21 +37,46 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@string/enter_your_registered_email"
+                android:text="@string/we_ve_sent_an_otp_in_your_email"
                 android:textColor="@color/hint_color"
                 app:layout_constraintStart_toStartOf="@+id/login_title_text_view"
                 app:layout_constraintTop_toBottomOf="@+id/login_title_text_view" />
 
-            <com.geekymusketeers.presin.ui.custom_views.CustomEditText
-                android:id="@+id/email_input_edit_text"
-                android:layout_width="0dp"
+            <com.chaos.view.PinView
+                android:id="@+id/otp_input"
+                style="@style/PinWidget.PinView"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                app:header="@string/email"
-                app:hint="@string/dummy_your_email"
+                android:layout_marginTop="45dp"
+                android:cursorVisible="true"
+                android:imeOptions="actionGo"
+                android:inputType="number"
+                android:itemBackground="@drawable/background_edit_text"
+                android:textAppearance="@style/MontserratMedium16sp"
+                android:textColor="@color/black"
+                app:cursorWidth="2dp"
+                app:hideLineWhenFilled="false"
+                app:itemCount="4"
+                app:itemHeight="55dp"
+                app:itemRadius="5dp"
+                app:itemSpacing="25dp"
+                app:itemWidth="55dp"
+                app:lineColor="@android:color/transparent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/login_subtext_text_view"
-                app:layout_constraintTop_toBottomOf="@+id/login_subtext_text_view" />
+                app:layout_constraintTop_toBottomOf="@+id/login_subtext_text_view"
+                app:lineWidth="0dp"
+                app:viewType="rectangle" />
+
+            <include
+                android:id="@+id/resend_dual_text"
+                layout="@layout/layout_dual_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="@+id/otp_input"
+                app:layout_constraintStart_toStartOf="@+id/otp_input"
+                app:layout_constraintTop_toBottomOf="@+id/otp_input" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

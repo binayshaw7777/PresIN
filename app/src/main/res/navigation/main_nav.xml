@@ -20,22 +20,21 @@
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
-            android:id="@+id/action_loginFragment_to_registerFragment"
-            app:destination="@id/registerFragment" />
-        <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:launchSingleTop="true"
+            app:popUpToInclusive="true"
             app:popUpTo="@id/loginFragment"/>
         <action
             android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
             app:destination="@id/forgotPasswordFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_userRegisterFragment"
+            app:destination="@id/userRegisterFragment"
+            app:popUpToInclusive="false"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/loginFragment"/>
     </fragment>
-    <fragment
-        android:id="@+id/registerFragment"
-        android:name="com.geekymusketeers.presin.ui.authentication.register.RegisterFragment"
-        android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.geekymusketeers.presin.ui.main_screens.HomeFragment"
@@ -43,7 +42,94 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/forgotPasswordFragment"
-        android:name="com.geekymusketeers.presin.ui.authentication.forgot_password.ForgotPasswordFragment"
+        android:name="com.geekymusketeers.presin.ui.authentication.forgot_password.email_request.ForgotPasswordFragment"
         android:label="fragment_forgot_password"
-        tools:layout="@layout/fragment_forgot_password" />
+        tools:layout="@layout/fragment_forgot_password" >
+        <action
+            android:id="@+id/action_forgotPasswordFragment_to_verifyOTPFragment"
+            app:destination="@id/verifyOTPFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/forgotPasswordFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/userRegisterFragment"
+        android:name="com.geekymusketeers.presin.ui.authentication.register.user_register.UserRegisterFragment"
+        android:label="fragment_user_register"
+        tools:layout="@layout/fragment_user_register" >
+        <action
+            android:id="@+id/action_userRegisterFragment_to_organizationRegisterFragment"
+            app:destination="@id/organizationRegisterFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/userRegisterFragment"/>
+
+    </fragment>
+    <fragment
+        android:id="@+id/organizationRegisterFragment"
+        android:name="com.geekymusketeers.presin.ui.authentication.register.org_register.OrganizationRegisterFragment"
+        android:label="fragment_organization_register"
+        tools:layout="@layout/fragment_organization_register" >
+        <action
+            android:id="@+id/action_organizationRegisterFragment_to_avatarRegisterFragment"
+            app:destination="@id/avatarRegisterFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/organizationRegisterFragment"/>
+        <argument
+            android:name="UserObject"
+            app:argType="com.geekymusketeers.presin.models.User" />
+    </fragment>
+    <fragment
+        android:id="@+id/avatarRegisterFragment"
+        android:name="com.geekymusketeers.presin.ui.authentication.register.avatar_register.AvatarRegisterFragment"
+        android:label="fragment_avatar_register"
+        tools:layout="@layout/fragment_avatar_register" >
+        <action
+            android:id="@+id/action_avatarRegisterFragment_to_faceScanRegisterFragment"
+            app:destination="@id/faceScanRegisterFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/avatarRegisterFragment"/>
+        <argument
+            android:name="UserObject"
+            app:argType="com.geekymusketeers.presin.models.User" />
+    </fragment>
+    <fragment
+        android:id="@+id/faceScanRegisterFragment"
+        android:name="com.geekymusketeers.presin.ui.authentication.register.face_scan_register.FaceScanRegisterFragment"
+        android:label="fragment_face_scan_register"
+        tools:layout="@layout/fragment_face_scan_register" >
+        <argument
+            android:name="UserObject"
+            app:argType="com.geekymusketeers.presin.models.User" />
+    </fragment>
+    <fragment
+        android:id="@+id/verifyOTPFragment"
+        android:name="com.geekymusketeers.presin.ui.authentication.forgot_password.verify_otp.VerifyOTPFragment"
+        android:label="fragment_verify_o_t_p"
+        tools:layout="@layout/fragment_verify_o_t_p" >
+        <action
+            android:id="@+id/action_verifyOTPFragment_to_setNewPasswordFragment"
+            app:destination="@id/setNewPasswordFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/verifyOTPFragment"/>
+        <argument
+            android:name="generated_otp"
+            app:argType="integer" />
+        <argument
+            android:name="token"
+            app:argType="string" />
+        <argument
+            android:name="userId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/setNewPasswordFragment"
+        android:name="com.geekymusketeers.presin.ui.authentication.forgot_password.set_new_password.SetNewPasswordFragment"
+        android:label="fragment_set_new_password"
+        tools:layout="@layout/fragment_set_new_password" >
+        <argument
+            android:name="token"
+            app:argType="string" />
+        <argument
+            android:name="UserId"
+            app:argType="string" />
+    </fragment>
 </navigation>

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.authentication.login.LoginFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.authentication.register.user_register.UserRegisterFragment">
 
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/register_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -21,71 +22,95 @@
             android:paddingVertical="10dp">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/login_title_text_view"
+                android:id="@+id/register_title_text_view"
                 style="@style/MontserratMedium24sp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/login"
+                android:text="@string/let_s_get_you_registered"
                 android:textColor="@color/text_color"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/login_subtext_text_view"
+                android:id="@+id/register_subtext_text_view"
                 style="@style/MontserratRegular14sp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@string/enter_your_registered_credentials"
+                android:text="@string/enter_your_personal_details"
                 android:textColor="@color/hint_color"
-                app:layout_constraintStart_toStartOf="@+id/login_title_text_view"
-                app:layout_constraintTop_toBottomOf="@+id/login_title_text_view" />
+                app:layout_constraintStart_toStartOf="@+id/register_title_text_view"
+                app:layout_constraintTop_toBottomOf="@+id/register_title_text_view" />
+
+            <com.geekymusketeers.presin.ui.custom_views.CustomEditText
+                android:id="@+id/name_input_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                app:header="@string/name"
+                app:hint="@string/dummy_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/register_subtext_text_view"
+                app:layout_constraintTop_toBottomOf="@+id/register_subtext_text_view" />
 
             <com.geekymusketeers.presin.ui.custom_views.CustomEditText
                 android:id="@+id/email_input_edit_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="20dp"
                 app:header="@string/email"
                 app:hint="@string/dummy_your_email"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/login_subtext_text_view"
-                app:layout_constraintTop_toBottomOf="@+id/login_subtext_text_view" />
+                app:layout_constraintEnd_toEndOf="@+id/name_input_edit_text"
+                app:layout_constraintStart_toStartOf="@+id/name_input_edit_text"
+                app:layout_constraintTop_toBottomOf="@+id/name_input_edit_text" />
+
+            <com.geekymusketeers.presin.ui.custom_views.CustomEditText
+                android:id="@+id/phone_input_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:header="@string/phone"
+                app:hint="@string/dummy_phone"
+                app:layout_constraintEnd_toEndOf="@+id/email_input_edit_text"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/email_input_edit_text"
+                app:layout_constraintTop_toBottomOf="@+id/email_input_edit_text" />
 
             <com.geekymusketeers.presin.ui.custom_views.CustomEditText
                 android:id="@+id/password_input_edit_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                app:header="@string/password"
+                app:header="@string/enter_password"
                 app:hint="@string/dummy_your_password"
-                app:layout_constraintEnd_toEndOf="@+id/email_input_edit_text"
-                app:layout_constraintStart_toStartOf="@+id/email_input_edit_text"
-                app:layout_constraintTop_toBottomOf="@+id/email_input_edit_text" />
+                app:layout_constraintEnd_toEndOf="@+id/phone_input_edit_text"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/phone_input_edit_text"
+                app:layout_constraintTop_toBottomOf="@+id/phone_input_edit_text" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/forgot_password_text_view"
-                style="@style/MontserratMedium16sp"
-                android:layout_width="wrap_content"
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/forgot_password_question_mark"
                 android:layout_marginTop="20dp"
-                android:padding="5dp"
-                android:textColor="@color/main_blue"
-                app:layout_constraintEnd_toEndOf="@+id/password_input_edit_text"
-                app:layout_constraintTop_toBottomOf="@+id/password_input_edit_text" />
+                android:progressBackgroundTint="@color/hint_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
     <com.geekymusketeers.presin.ui.custom_views.CustomButton
-        android:id="@+id/login_button"
+        android:id="@+id/register_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="14dp"
-        app:header="@string/login"
+        app:header="@string/nextstep"
         android:layout_marginHorizontal="20dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_dual_edit_text"
         app:layout_constraintEnd_toEndOf="@+id/bottom_dual_edit_text"

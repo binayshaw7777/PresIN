@@ -9,6 +9,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.geekymusketeers.presin.R
 import com.geekymusketeers.presin.databinding.LayoutPrimaryButtonBinding
+import com.geekymusketeers.presin.utils.hide
+import com.geekymusketeers.presin.utils.show
 
 
 class CustomButton @JvmOverloads constructor(
@@ -31,10 +33,10 @@ class CustomButton @JvmOverloads constructor(
         context.obtainStyledAttributes(attrs, R.styleable.ButtonCustomLayout).apply {
             try {
                 val header = getString(R.styleable.ButtonCustomLayout_header)
-                val endDrawableIcon = getDrawable(R.styleable.ButtonCustomLayout_endIcon)
+//                val endDrawableIcon = getDrawable(R.styleable.ButtonCustomLayout_endIcon)
                 val inputEnabled = getBoolean(R.styleable.ButtonCustomLayout_inputEnabled, false)
                 setHeader(header)
-                setEndDrawableIcon(endDrawableIcon)
+//                setEndDrawableIcon(endDrawableIcon)
                 setButtonEnabled(inputEnabled)
             } finally {
                 recycle()
@@ -42,15 +44,17 @@ class CustomButton @JvmOverloads constructor(
         }
     }
 
-    private fun setEndDrawableIcon(drawable: Drawable?) {
+    fun setEndDrawableIcon(drawable: Drawable?) {
         drawable?.let {
-            binding.buttonIcon.setImageDrawable(it)
+            binding.buttonIcon.apply {
+                setImageDrawable(it)
+                show()
+            }
         }
     }
 
     fun setButtonEnabled(inputEnabled: Boolean) {
         binding.run {
-            root.isEnabled = inputEnabled
             isEnabled = inputEnabled
             buttonConstraintLayout.setBackgroundColor(
                 ContextCompat.getColor(
@@ -61,8 +65,26 @@ class CustomButton @JvmOverloads constructor(
         }
     }
 
-    private fun setHeader(header: String?) {
+    fun showButtonProgress() {
+        binding.apply {
+            buttonLinearLayoutWithTextViewAndEndDrawable.hide()
+            buttonProgress.show()
+        }
+    }
+
+    fun hideButtonProgress() {
+        binding.apply {
+            buttonLinearLayoutWithTextViewAndEndDrawable.show()
+            buttonProgress.hide()
+        }
+    }
+
+    fun setHeader(header: String?) {
         binding.buttonText.text = header
+    }
+
+    fun getHeader() : String {
+        return binding.buttonText.text.toString()
     }
 
 }

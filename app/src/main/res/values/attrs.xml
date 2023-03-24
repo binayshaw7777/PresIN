@@ -9,7 +9,6 @@
     <attr name="options" format="reference"/>
     <attr name="minimumHeight" format="integer"/>
     <attr name="multiLine" format="boolean" />
-
     <attr name="FilterChips" format="reference" />
 
     <declare-styleable name="EditTextCustomLayout">

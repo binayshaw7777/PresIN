@@ -115,6 +115,11 @@ fun Context.isNetworkAvailable(): Boolean {
     return false
 }
 
+fun generateOTP(): Int {
+    val random = Random()
+    return random.nextInt(9999 - 1000 + 1) + 1000
+}
+
 fun View.show() {
     visibility = View.VISIBLE
 }
