@@ -1,4 +1,4 @@
-package com.geekymusketeers.presin.ui.authentication.forgot_password
+package com.geekymusketeers.presin.ui.authentication.forgot_password.email_request
 
 import android.content.Context
 import com.geekymusketeers.presin.network.BaseRepository
