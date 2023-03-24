@@ -9,6 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.geekymusketeers.presin.R
 import com.geekymusketeers.presin.databinding.LayoutPrimaryButtonBinding
+import com.geekymusketeers.presin.utils.hide
 import com.geekymusketeers.presin.utils.show
 
 
@@ -64,6 +65,19 @@ class CustomButton @JvmOverloads constructor(
         }
     }
 
+    fun showButtonProgress() {
+        binding.apply {
+            buttonLinearLayoutWithTextViewAndEndDrawable.hide()
+            buttonProgress.show()
+        }
+    }
+
+    fun hideButtonProgress() {
+        binding.apply {
+            buttonLinearLayoutWithTextViewAndEndDrawable.show()
+            buttonProgress.hide()
+        }
+    }
 
     fun setHeader(header: String?) {
         binding.buttonText.text = header

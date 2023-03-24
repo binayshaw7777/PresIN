@@ -41,6 +41,7 @@ class LoginFragment : BaseFragment() {
 
     private fun clickHandlers() {
         binding.loginButton.setOnClickListener {
+            binding.loginButton.showButtonProgress()
             loginViewModel.loginUser()
         }
         binding.forgotPasswordTextView.setOnClickListener {
@@ -83,14 +84,17 @@ class LoginFragment : BaseFragment() {
                 binding.loginButton.setButtonEnabled(it)
             }
             isEmailValid.observe(viewLifecycleOwner) {
+                binding.loginButton.hideButtonProgress()
                 val message = getString(R.string.invalid_email)
                 requireContext().showToast(message)
             }
             isPasswordValid.observe(viewLifecycleOwner) {
+                binding.loginButton.hideButtonProgress()
                 val message = getString(R.string.invalid_password)
                 requireContext().showToast(message)
             }
             loginResponse.observe(viewLifecycleOwner) {
+                binding.loginButton.hideButtonProgress()
                 val jwtToken = it.token
                 val message = it.message
                 Logger.debugLog("JWT: $jwtToken")
@@ -99,6 +103,7 @@ class LoginFragment : BaseFragment() {
             }
             errorLiveData.observe(viewLifecycleOwner) {
                 //Show an error
+                binding.loginButton.hideButtonProgress()
                 showErrorDialog(getString(R.string.error), it.message)
             }
         }
