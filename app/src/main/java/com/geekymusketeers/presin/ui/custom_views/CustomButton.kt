@@ -64,8 +64,13 @@ class CustomButton @JvmOverloads constructor(
         }
     }
 
-    private fun setHeader(header: String?) {
+
+    fun setHeader(header: String?) {
         binding.buttonText.text = header
+    }
+
+    fun getHeader() : String {
+        return binding.buttonText.text.toString()
     }
 
 }

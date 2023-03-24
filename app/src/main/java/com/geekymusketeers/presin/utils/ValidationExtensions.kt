@@ -67,14 +67,14 @@ class Validator {
          * @param updateUI - if true and if data is EditText, the function sets error to the EditText or its TextInputLayout
          * @return - true if the name is valid.
          */
-        fun isValidName(data: Any, updateUI: Boolean = true): Boolean {
-            val str = getText(data)
+        fun String.isValidName(updateUI: Boolean? = true): Boolean {
+            val str = getText(this)
             val valid = str.trim().length > 2
 
             // Set error if required
-            if (updateUI) {
+            if (updateUI == true) {
                 val error: String? = if (valid) null else NAME_VALIDATION_MSG
-                setError(data, error)
+                setError(this, error)
             }
 
             return valid
@@ -105,14 +105,14 @@ class Validator {
          * @param updateUI - if true and if data is EditText, the function sets error to the EditText or its TextInputLayout
          * @return - true if the phone is valid.
          */
-        fun isValidPhone(data: Any, updateUI: Boolean = true): Boolean {
-            val str = getText(data)
+        fun String.isValidPhone(updateUI: Boolean = true): Boolean {
+            val str = getText(this)
             val valid = Patterns.PHONE.matcher(str).matches()
 
             // Set error if required
             if (updateUI) {
                 val error: String? = if (valid) null else PHONE_VALIDATION_MSG
-                setError(data, error)
+                setError(this, error)
             }
 
             return valid

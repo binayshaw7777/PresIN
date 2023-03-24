@@ -7,6 +7,10 @@ import com.geekymusketeers.presin.ui.authentication.forgot_password.email_reques
 import com.geekymusketeers.presin.ui.authentication.forgot_password.set_new_password.SetNewPasswordViewModel
 import com.geekymusketeers.presin.ui.authentication.forgot_password.verify_otp.VerifyOTPViewModel
 import com.geekymusketeers.presin.ui.authentication.login.LoginViewModel
+import com.geekymusketeers.presin.ui.authentication.register.avatar_register.AvatarRegisterViewModel
+import com.geekymusketeers.presin.ui.authentication.register.face_scan_register.FaceScanViewModel
+import com.geekymusketeers.presin.ui.authentication.register.org_register.OrganizationRegisterViewModel
+import com.geekymusketeers.presin.ui.authentication.register.user_register.UserRegisterViewModel
 
 class ViewModelFactory : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
@@ -26,6 +30,18 @@ class ViewModelFactory : ViewModelProvider.Factory {
                 }
                 isAssignableFrom(SetNewPasswordViewModel::class.java) -> {
                     SetNewPasswordViewModel(application)
+                }
+                isAssignableFrom(UserRegisterViewModel::class.java) -> {
+                    UserRegisterViewModel(application)
+                }
+                isAssignableFrom(OrganizationRegisterViewModel::class.java) -> {
+                    OrganizationRegisterViewModel(application)
+                }
+                isAssignableFrom(AvatarRegisterViewModel::class.java) -> {
+                    AvatarRegisterViewModel(application)
+                }
+                isAssignableFrom(FaceScanViewModel::class.java) -> {
+                    FaceScanViewModel(application)
                 }
                 else -> throw IllegalArgumentException("Unknown ViewModel class")
             }
