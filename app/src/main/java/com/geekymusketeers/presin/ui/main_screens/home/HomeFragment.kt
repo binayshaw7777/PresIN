@@ -1,4 +1,4 @@
-package com.geekymusketeers.presin.ui.main_screens
+package com.geekymusketeers.presin.ui.main_screens.home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -23,19 +23,7 @@ class HomeFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
-
-        initObservers()
-        initViews()
-
         return binding.root
-    }
-
-    private fun initViews() {
-
-    }
-
-    private fun initObservers() {
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
