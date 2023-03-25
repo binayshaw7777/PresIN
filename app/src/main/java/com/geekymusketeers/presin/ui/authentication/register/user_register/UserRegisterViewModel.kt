@@ -11,6 +11,7 @@ import com.geekymusketeers.presin.utils.Validator.Companion.isValidPhone
 
 class UserRegisterViewModel(application: Application) : BaseViewModel(application) {
 
+    private var currentProgress = 0
     private val registerNameLiveData: MutableLiveData<String> by lazy { MutableLiveData() }
     private val registerEmailLiveData: MutableLiveData<String> by lazy { MutableLiveData() }
     private val registerPhoneNumberLiveData: MutableLiveData<String> by lazy { MutableLiveData() }

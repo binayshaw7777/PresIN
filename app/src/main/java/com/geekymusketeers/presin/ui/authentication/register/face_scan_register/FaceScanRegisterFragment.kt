@@ -5,16 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.geekymusketeers.presin.R
 import com.geekymusketeers.presin.analytics.AnalyticsData
 import com.geekymusketeers.presin.base.BaseFragment
 import com.geekymusketeers.presin.base.ViewModelFactory
 import com.geekymusketeers.presin.databinding.FragmentFaceScanRegisterBinding
+import com.geekymusketeers.presin.utils.Logger
 import com.geekymusketeers.presin.utils.showToast
 
 
 class FaceScanRegisterFragment : BaseFragment() {
 
+    private val args:FaceScanRegisterFragmentArgs by navArgs()
     private var _binding: FragmentFaceScanRegisterBinding? = null
     private val binding get() = _binding!!
     private val faceScanViewModel: FaceScanViewModel by viewModels {
@@ -31,6 +34,7 @@ class FaceScanRegisterFragment : BaseFragment() {
         initViews()
         return binding.root
     }
+
 
     private fun initObservers() {
         faceScanViewModel.run {

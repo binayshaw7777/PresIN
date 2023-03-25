@@ -6,18 +6,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.authentication.register.avatar_register.AvatarRegisterFragment">
 
-
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="20dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/skip_or_next_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:paddingHorizontal="20dp"
             android:paddingVertical="10dp">
 
@@ -25,8 +26,8 @@
                 android:id="@+id/register_title_text_view"
                 style="@style/MontserratMedium24sp"
                 android:layout_width="0dp"
-                android:layout_marginTop="20dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:text="@string/set_profile_picture"
                 android:textColor="@color/text_color"
                 app:layout_constraintStart_toStartOf="parent"
@@ -43,17 +44,25 @@
                 app:layout_constraintStart_toStartOf="@+id/register_title_text_view"
                 app:layout_constraintTop_toBottomOf="@+id/register_title_text_view" />
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/avatar"
+                android:layout_width="0dp"
+                android:layout_height="250dp"
+                android:layout_marginHorizontal="20dp"
+                android:src="@drawable/image_placeholder"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/register_title_text_view" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/add_avatar"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="68dp"
-                android:layout_marginHorizontal="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/register_subtext_text_view"
-                app:srcCompat="@drawable/image_placeholder" />
+                android:layout_marginEnd="68dp"
+                app:srcCompat="@drawable/add_face_button"
+                app:layout_constraintEnd_toEndOf="@+id/avatar"
+                app:layout_constraintTop_toTopOf="@+id/avatar" />
 
             <ProgressBar
                 android:id="@+id/progressBar"

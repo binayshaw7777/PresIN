@@ -14,7 +14,7 @@ class AvatarRegisterViewModel(application: Application): BaseViewModel(applicati
     val userLiveData : MutableLiveData<User> by lazy { MutableLiveData() }
     val enableAvatarRegisterButtonLiveData: MutableLiveData<Boolean> by lazy { MutableLiveData() }
 
-    fun setAvatar(avatar: Uri?) {
+    fun setAvatarUri(avatar: Uri?) {
         avatar?.let {
             registerAvatarLiveData.value = avatar
             enableAvatarRegisterButtonLiveData.value = true
@@ -34,6 +34,7 @@ class AvatarRegisterViewModel(application: Application): BaseViewModel(applicati
     }
 
     private fun getAvatarUrl(avatar: Uri?): String {
+        // Get URL from Firebase
         return ""
     }
 
