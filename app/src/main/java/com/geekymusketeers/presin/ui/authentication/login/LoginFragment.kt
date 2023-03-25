@@ -13,8 +13,10 @@ import com.geekymusketeers.presin.analytics.AnalyticsData
 import com.geekymusketeers.presin.base.BaseFragment
 import com.geekymusketeers.presin.base.ViewModelFactory
 import com.geekymusketeers.presin.databinding.FragmentLoginBinding
-import com.geekymusketeers.presin.network.ApiError
+import com.geekymusketeers.presin.models.UserData
 import com.geekymusketeers.presin.utils.Logger
+import com.geekymusketeers.presin.utils.activityNavController
+import com.geekymusketeers.presin.utils.navigateSafely
 import com.geekymusketeers.presin.utils.showToast
 
 
@@ -35,7 +37,6 @@ class LoginFragment : BaseFragment() {
         initObservers()
         initViews()
         clickHandlers()
-
         return binding.root
     }
 
@@ -99,10 +100,10 @@ class LoginFragment : BaseFragment() {
                 val message = it.message
                 Logger.debugLog("JWT: $jwtToken")
                 requireContext().showToast(message)
-                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                UserData.isAuthorized = true
+                activityNavController().navigateSafely(R.id.action_global_mainFlowFragment)
             }
             errorLiveData.observe(viewLifecycleOwner) {
-                //Show an error
                 binding.loginButton.hideButtonProgress()
                 showErrorDialog(getString(R.string.error), it.message)
             }
@@ -115,5 +116,4 @@ class LoginFragment : BaseFragment() {
     }
 
     override fun getScreenName() = AnalyticsData.ScreenName.LOGIN_FRAGMENT
-
 }

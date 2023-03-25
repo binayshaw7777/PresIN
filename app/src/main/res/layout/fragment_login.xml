@@ -9,7 +9,8 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/login_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -69,9 +70,9 @@
                 style="@style/MontserratMedium16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/forgot_password_question_mark"
                 android:layout_marginTop="20dp"
                 android:padding="5dp"
+                android:text="@string/forgot_password_question_mark"
                 android:textColor="@color/main_blue"
                 app:layout_constraintEnd_toEndOf="@+id/password_input_edit_text"
                 app:layout_constraintTop_toBottomOf="@+id/password_input_edit_text" />
@@ -84,9 +85,9 @@
         android:id="@+id/login_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginVertical="14dp"
         app:header="@string/login"
-        android:layout_marginHorizontal="20dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_dual_edit_text"
         app:layout_constraintEnd_toEndOf="@+id/bottom_dual_edit_text"
         app:layout_constraintStart_toStartOf="@+id/bottom_dual_edit_text" />

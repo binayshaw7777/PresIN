@@ -15,6 +15,9 @@ interface AnalyticsData {
             const val ORGANIZATION_REGISTER_FRAGMENT = "ORGANIZATION_REGISTER_FRAGMENT"
             const val AVATAR_REGISTER_FRAGMENT = "AVATAR_REGISTER_FRAGMENT"
             const val FACE_SCAN_REGISTER_FRAGMENT = "FACE_SCAN_REGISTER_FRAGMENT"
+            const val SETTINGS_FRAGMENT = "SETTINGS_FRAGMENT"
+            const val STATS_FRAGMENT = "STATS_FRAGMENT"
+            const val ATTENDEES_FRAGMENT = "ATTENDEES_FRAGMENT"
         }
     }
 
