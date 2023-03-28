@@ -7,6 +7,7 @@
     tools:context=".ui.authentication.register.org_register.OrganizationRegisterFragment">
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -24,8 +25,8 @@
                 android:id="@+id/register_title_text_view"
                 style="@style/MontserratMedium24sp"
                 android:layout_width="0dp"
-                android:layout_marginTop="20dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:text="@string/your_organization"
                 android:textColor="@color/text_color"
                 app:layout_constraintStart_toStartOf="parent"
@@ -42,39 +43,38 @@
                 app:layout_constraintStart_toStartOf="@+id/register_title_text_view"
                 app:layout_constraintTop_toBottomOf="@+id/register_title_text_view" />
 
-            <com.geekymusketeers.presin.ui.custom_views.CustomEditText
-                android:id="@+id/role_input_edit_text"
+            <com.geekymusketeers.presin.ui.custom_views.CustomSpinnerEditText
+                android:id="@+id/role_input_spinner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
                 app:header="@string/role"
-                app:hint="@string/dummy_your_role"
+                app:hint="@string/empty_role"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/register_subtext_text_view"
                 app:layout_constraintTop_toBottomOf="@+id/register_subtext_text_view" />
 
-            <com.geekymusketeers.presin.ui.custom_views.CustomEditText
-                android:id="@+id/admin_input_edit_text"
+            <com.geekymusketeers.presin.ui.custom_views.CustomSpinnerEditText
+                android:id="@+id/admin_input_spinner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 app:header="@string/admin"
                 app:hint="@string/dummy_your_admin"
-                app:layout_constraintEnd_toEndOf="@+id/role_input_edit_text"
-                app:layout_constraintStart_toStartOf="@+id/role_input_edit_text"
-                app:layout_constraintTop_toBottomOf="@+id/role_input_edit_text" />
+                app:layout_constraintEnd_toEndOf="@+id/role_input_spinner"
+                app:layout_constraintStart_toStartOf="@+id/role_input_spinner"
+                app:layout_constraintTop_toBottomOf="@+id/role_input_spinner" />
 
-            <com.geekymusketeers.presin.ui.custom_views.CustomEditText
-                android:id="@+id/organization_input_edit_text"
+            <com.geekymusketeers.presin.ui.custom_views.CustomSpinnerEditText
+                android:id="@+id/organization_input_spinner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 app:header="@string/organization"
                 app:hint="@string/dummy_your_organization"
-                app:layout_constraintEnd_toEndOf="@+id/admin_input_edit_text"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/admin_input_edit_text"
-                app:layout_constraintTop_toBottomOf="@+id/admin_input_edit_text" />
+                app:layout_constraintEnd_toEndOf="@+id/admin_input_spinner"
+                app:layout_constraintStart_toStartOf="@+id/admin_input_spinner"
+                app:layout_constraintTop_toBottomOf="@+id/admin_input_spinner" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -130,5 +130,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/center_guideline" />
 
+    <include
+        android:id="@+id/progress_animation"
+        layout="@layout/layout_progress"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
