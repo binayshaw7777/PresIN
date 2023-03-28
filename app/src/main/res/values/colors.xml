@@ -14,4 +14,5 @@
     <color name="button_disable_color">#B1B1B1</color>
     <color name="button_enable_color">#006BFF</color>
     <color name="main_blue">#006BFF</color>
+    <color name="card_shadow_color">#B0D6FF</color>
 </resources>

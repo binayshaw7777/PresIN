@@ -22,7 +22,6 @@
     <string name="dummy_name">John Doe</string>
     <string name="dummy_phone">+91-798-084-5394</string>
     <string name="nextstep">Next Step</string>
-    <string name="dummy_your_role">Select Role</string>
     <string name="dummy_your_admin">No</string>
     <string name="role">Role</string>
     <string name="admin">Are you an Admin</string>
@@ -64,8 +63,15 @@
     <string name="skip">Skip</string>
     <string name="next">Next</string>
     <string name="avatar_error">Avatar cannot be set</string>
+    <string name="search">Search</string>
     <string name="home">Home</string>
     <string name="settings">Settings</string>
     <string name="stats">Stats</string>
     <string name="attendees">Attendees</string>
+    <string name="roles_text_hint">Eg. Student, Teacher...</string>
+    <string name="cant_fint_role">Can\'t find the role?</string>
+    <string name="loading">Loading</string>
+    <string name="eg_google_amazon">Eg. Google, Amazon...</string>
+    <string name="cant_find_the_organization">Can\'t find the organization?</string>
+    <string name="choose_admin_status">Choose admin status</string>
 </resources>

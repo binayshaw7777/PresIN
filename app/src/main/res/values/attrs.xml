@@ -20,10 +20,18 @@
         <attr name="endIcon" />
         <attr name="minimumHeight" />
         <attr name="multiLine"/>
-
     </declare-styleable>
 
-    <declare-styleable name="SpinnerCustomLayout">
+    <declare-styleable name="SpinnerEditTextCustomLayout">
+        <attr name="header" />
+        <attr name="inputEnabled" />
+        <attr name="invalidInput" />
+        <attr name="hint" />
+        <attr name="input" />
+        <attr name="endIcon" />
+    </declare-styleable>
+
+    <declare-styleable name="SpinnerDialogCustomLayout">
         <attr name="header" />
         <attr name="inputEnabled" />
         <attr name="invalidInput" />

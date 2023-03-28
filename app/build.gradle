@@ -43,9 +43,8 @@ android {
 
 dependencies {
 
-
+    def lottieVersion = "5.2.0"
     def cameraxVersion = "1.1.0-rc01"
-
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
@@ -84,6 +83,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
 
+    //LottieFiles Animation
+    implementation "com.airbnb.android:lottie:$lottieVersion"
+
     //Circular ImageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
@@ -105,4 +107,5 @@ dependencies {
 
     implementation 'com.google.mlkit:vision-common:17.3.0'
     implementation 'com.google.android.gms:play-services-mlkit-face-detection:17.1.0'
+
 }
