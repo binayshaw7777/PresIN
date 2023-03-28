@@ -43,15 +43,45 @@
                 app:layout_constraintTop_toBottomOf="@+id/register_title_text_view" />
 
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/addFace"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/add_face_layout"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_marginTop="50dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/register_subtext_text_view"
-                app:srcCompat="@drawable/image_placeholder" />
+                app:layout_constraintTop_toBottomOf="@+id/register_subtext_text_view">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView2"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    app:cardCornerRadius="200dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <FrameLayout
+                        android:id="@+id/container"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.060000002">
+
+                        <androidx.camera.view.PreviewView
+                            android:id="@+id/previewView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                    </FrameLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.geekymusketeers.presin.ui.custom_views.CustomButton
                 android:id="@+id/add_face_button"
@@ -60,9 +90,9 @@
                 android:layout_height="57dp"
                 android:layout_marginVertical="25dp"
                 app:header="Add face"
-                app:layout_constraintEnd_toEndOf="@+id/addFace"
-                app:layout_constraintStart_toStartOf="@+id/addFace"
-                app:layout_constraintTop_toBottomOf="@+id/addFace" />
+                app:layout_constraintEnd_toEndOf="@+id/add_face_layout"
+                app:layout_constraintStart_toStartOf="@+id/add_face_layout"
+                app:layout_constraintTop_toBottomOf="@+id/add_face_layout" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -70,6 +100,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:progress="0"
+                android:progressTint="@color/main_blue"
                 android:progressBackgroundTint="@color/hint_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

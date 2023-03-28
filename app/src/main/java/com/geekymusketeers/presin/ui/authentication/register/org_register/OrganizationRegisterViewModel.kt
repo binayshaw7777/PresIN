@@ -13,7 +13,11 @@ class OrganizationRegisterViewModel(application: Application) : BaseViewModel(ap
     val isValidRole: MutableLiveData<Boolean> by lazy { MutableLiveData() }
     val userLiveData : MutableLiveData<User> by lazy { MutableLiveData() }
     val isValidOrganization: MutableLiveData<Boolean> by lazy { MutableLiveData() }
+    val progressBarLiveData : MutableLiveData<Int> by lazy { MutableLiveData() }
     val enableOrganizationRegisterButtonLiveData: MutableLiveData<Boolean> by lazy { MutableLiveData() }
+
+    private val roleValue = 10
+    private val organizationValue = 10
 
     fun registerRole(role: String) {
         registerRoleLiveData.value = role
@@ -56,5 +60,16 @@ class OrganizationRegisterViewModel(application: Application) : BaseViewModel(ap
         val requiredField = registerRoleLiveData.value.isNullOrEmpty() ||
                 registerOrganizationLiveData.value.isNullOrEmpty()
         enableOrganizationRegisterButtonLiveData.value = requiredField.not()
+        setProgressValue()
+    }
+
+    private fun setProgressValue() {
+        progressBarLiveData.value = 30
+        if (registerRoleLiveData.value.isNullOrEmpty().not()) {
+            progressBarLiveData.value = progressBarLiveData.value!!.plus(roleValue)
+        }
+        if (registerOrganizationLiveData.value.isNullOrEmpty().not()) {
+            progressBarLiveData.value = progressBarLiveData.value!!.plus(organizationValue)
+        }
     }
 }

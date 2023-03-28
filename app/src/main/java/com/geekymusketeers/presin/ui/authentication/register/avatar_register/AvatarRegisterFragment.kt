@@ -49,18 +49,19 @@ class AvatarRegisterFragment : BaseFragment() {
     private fun clickHandlers() {
         binding.apply {
             skipOrNextButton.setOnClickListener {
-                Logger.debugLog(skipOrNextButton.getHeader())
                 if (skipOrNextButton.getHeader() == getString(R.string.skip)) {
                     val action = AvatarRegisterFragmentDirections.actionAvatarRegisterFragmentToFaceScanRegisterFragment(args.UserObject)
                     findNavController().navigate(action)
                 }else {
                     avatarRegisterViewModel.avatarRegister(args.UserObject)
-
                 }
             }
             addAvatar.setOnClickListener {
                 uploadImage()
             }
+        }
+        binding.backButton.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 
@@ -71,6 +72,10 @@ class AvatarRegisterFragment : BaseFragment() {
             enableAvatarRegisterButtonLiveData.observe(viewLifecycleOwner) {
                 binding.skipOrNextButton.setHeader(getString(R.string.next))
             }
+            progressBarLiveData.observe(viewLifecycleOwner) {
+                binding.progressBar.progress = it
+            }
+            binding.progressBar.progress = 60
             userLiveData.observe(viewLifecycleOwner) {
                 val actions = AvatarRegisterFragmentDirections.actionAvatarRegisterFragmentToFaceScanRegisterFragment(it)
                 findNavController().navigate(actions)

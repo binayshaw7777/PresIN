@@ -43,13 +43,14 @@ class OrganizationRegisterFragment : BaseFragment() {
         binding.organizationButton.setOnClickListener {
             organizationViewModel.organizationRegister(args.UserObject)
         }
+        binding.backButton.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun initView() {
         binding.run {
-//            organizationButton.setOnClickListener {
-//                findNavController().navigate(R.id.action_organizationRegisterFragment_to_avatarRegisterFragment)
-//            }
+
             roleInputEditText.apply {
                 setUserInputListener {
                     organizationViewModel.registerRole(it)
@@ -86,14 +87,14 @@ class OrganizationRegisterFragment : BaseFragment() {
                 binding.organizationButton.isEnabled = it
                 binding.organizationButton.setButtonEnabled(it)
             }
+            progressBarLiveData.observe(viewLifecycleOwner){
+                binding.progressBar.progress = it
+            }
+            binding.progressBar.progress = 30
             isValidRole.observe(viewLifecycleOwner) {
                 val message = getString(R.string.empty_role)
                 requireContext().showToast(message)
             }
-//            isValidAdmin.observe(viewLifecycleOwner) {
-//                val message = getString(R.string.empty_admin)
-//                requireContext().showToast(message)
-//            }
             isValidOrganization.observe(viewLifecycleOwner) {
                 val message = getString(R.string.empty_organization)
                 requireContext().showToast(message)

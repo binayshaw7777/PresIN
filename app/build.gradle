@@ -43,6 +43,10 @@ android {
 
 dependencies {
 
+
+    def cameraxVersion = "1.1.0-rc01"
+
+
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
@@ -92,4 +96,13 @@ dependencies {
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
+
+    // CameraX View class
+    implementation "androidx.camera:camera-core:${cameraxVersion}"
+    implementation "androidx.camera:camera-camera2:${cameraxVersion}"
+    implementation "androidx.camera:camera-lifecycle:${cameraxVersion}"
+    implementation "androidx.camera:camera-view:${cameraxVersion}"
+
+    implementation 'com.google.mlkit:vision-common:17.3.0'
+    implementation 'com.google.android.gms:play-services-mlkit-face-detection:17.1.0'
 }

@@ -11,7 +11,6 @@ import com.geekymusketeers.presin.utils.Validator.Companion.isValidPhone
 
 class UserRegisterViewModel(application: Application) : BaseViewModel(application) {
 
-    private var currentProgress = 0
     private val registerNameLiveData: MutableLiveData<String> by lazy { MutableLiveData() }
     private val registerEmailLiveData: MutableLiveData<String> by lazy { MutableLiveData() }
     private val registerPhoneNumberLiveData: MutableLiveData<String> by lazy { MutableLiveData() }
@@ -21,7 +20,15 @@ class UserRegisterViewModel(application: Application) : BaseViewModel(applicatio
     val isValidPhoneNumber: MutableLiveData<Boolean> by lazy { MutableLiveData() }
     val isValidPassword: MutableLiveData<Boolean> by lazy { MutableLiveData() }
     val userLiveData : MutableLiveData<User> by lazy { MutableLiveData() }
+    val progressBarLiveData : MutableLiveData<Int> by lazy { MutableLiveData() }
     val enableUserRegisterButtonLiveData: MutableLiveData<Boolean> by lazy { MutableLiveData() }
+
+
+    private val nameValue = 6
+    private val emailValue = 6
+    private val phoneNumberValue = 6
+    private val passwordValue = 7
+
 
     fun registerName(name: String) {
         registerNameLiveData.value = name
@@ -84,6 +91,24 @@ class UserRegisterViewModel(application: Application) : BaseViewModel(applicatio
                 registerEmailLiveData.value.isNullOrEmpty() ||
                 registerPhoneNumberLiveData.value.isNullOrEmpty() ||
                 registerPasswordLiveData.value.isNullOrEmpty()
+
         enableUserRegisterButtonLiveData.value = requiredFields.not()
+        setProgressValue()
+    }
+
+    private fun setProgressValue() {
+        progressBarLiveData.value = 0
+        if (registerNameLiveData.value?.isValidName() == true){
+            progressBarLiveData.value = progressBarLiveData.value!!.plus(nameValue)
+        }
+        if (registerEmailLiveData.value?.isValidEmail() == true){
+            progressBarLiveData.value = progressBarLiveData.value!!.plus(emailValue)
+        }
+        if (registerPhoneNumberLiveData.value?.isValidPhone() == true){
+            progressBarLiveData.value = progressBarLiveData.value!!.plus(phoneNumberValue)
+        }
+        if (registerPasswordLiveData.value?.isValidPassword() == true){
+            progressBarLiveData.value = progressBarLiveData.value!!.plus(passwordValue)
+        }
     }
 }

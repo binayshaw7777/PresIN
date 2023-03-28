@@ -12,8 +12,10 @@ class AvatarRegisterViewModel(application: Application): BaseViewModel(applicati
     private val registerAvatarLiveData: MutableLiveData<Uri> by lazy { MutableLiveData() }
     val isValidAvatar: MutableLiveData<Boolean> by lazy { MutableLiveData() }
     val userLiveData : MutableLiveData<User> by lazy { MutableLiveData() }
+    val progressBarLiveData : MutableLiveData<Int> by lazy { MutableLiveData() }
     val enableAvatarRegisterButtonLiveData: MutableLiveData<Boolean> by lazy { MutableLiveData() }
 
+    private val avatarValue = 15
     fun setAvatarUri(avatar: Uri?) {
         avatar?.let {
             registerAvatarLiveData.value = avatar
@@ -41,6 +43,13 @@ class AvatarRegisterViewModel(application: Application): BaseViewModel(applicati
     private fun updateButtonText() {
         val isNext = !registerAvatarLiveData.value.isNull()
         enableAvatarRegisterButtonLiveData.value = isNext.not()
+        setProgressBarValue()
+    }
 
+    private fun setProgressBarValue() {
+        progressBarLiveData.value = 60
+        if (registerAvatarLiveData.value.isNull().not()){
+            progressBarLiveData.value = progressBarLiveData.value!!.plus(avatarValue)
+        }
     }
 }

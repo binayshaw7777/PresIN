@@ -8,8 +8,10 @@ class FaceScanViewModel(application: Application) : BaseViewModel(application) {
 
     private val registerFaceLiveData: MutableLiveData<String> by lazy { MutableLiveData() }
     val isValidFace: MutableLiveData<Boolean> by lazy { MutableLiveData() }
+    val progressBarLiveData : MutableLiveData<Int> by lazy { MutableLiveData() }
     val enableFaceScanButtonLiveData: MutableLiveData<Boolean> by lazy { MutableLiveData() }
 
+    private val faceScanValue = 25
     fun registerFace(face: String){
         registerFaceLiveData.value = face
         updateButtonState()
@@ -28,5 +30,13 @@ class FaceScanViewModel(application: Application) : BaseViewModel(application) {
     private fun updateButtonState() {
         val required = registerFaceLiveData.value.isNullOrEmpty()
         enableFaceScanButtonLiveData.value = required.not()
+        setProgressBarValue()
+    }
+
+    private fun setProgressBarValue() {
+        progressBarLiveData.value = 75
+        if (registerFaceLiveData.value.isNullOrEmpty().not()){
+            progressBarLiveData.value = progressBarLiveData.value!!.plus(faceScanValue)
+        }
     }
 }

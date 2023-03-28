@@ -90,6 +90,10 @@ class UserRegisterFragment : BaseFragment() {
             enableUserRegisterButtonLiveData.observe(viewLifecycleOwner) {
                 binding.registerButton.isEnabled = it
                 binding.registerButton.setButtonEnabled(it)
+
+            }
+            progressBarLiveData.observe(viewLifecycleOwner){
+                binding.progressBar.progress = it
             }
             isValidName.observe(viewLifecycleOwner) {
                 val message = getString(R.string.empty_name)
