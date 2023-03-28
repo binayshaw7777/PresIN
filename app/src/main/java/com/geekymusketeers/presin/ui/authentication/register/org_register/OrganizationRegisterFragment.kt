@@ -1,11 +1,9 @@
 package com.geekymusketeers.presin.ui.authentication.register.org_register
 
 import android.os.Bundle
-import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -14,6 +12,11 @@ import com.geekymusketeers.presin.analytics.AnalyticsData
 import com.geekymusketeers.presin.base.BaseFragment
 import com.geekymusketeers.presin.base.ViewModelFactory
 import com.geekymusketeers.presin.databinding.FragmentOrganizationRegisterBinding
+import com.geekymusketeers.presin.models.Admin
+import com.geekymusketeers.presin.models.GetAllOrganizationResponse
+import com.geekymusketeers.presin.models.GetAllRoleResponse
+import com.geekymusketeers.presin.utils.hide
+import com.geekymusketeers.presin.utils.show
 import com.geekymusketeers.presin.utils.showToast
 
 
@@ -33,55 +36,48 @@ class OrganizationRegisterFragment : BaseFragment() {
         _binding = FragmentOrganizationRegisterBinding.inflate(layoutInflater, container, false)
 
         initObservers()
-        initView()
         clickHandlers()
 
         return binding.root
     }
 
     private fun clickHandlers() {
+
+        binding.roleInputSpinner.getSelectedItemFromDialog {
+            organizationViewModel.registerRole(it)
+        }
+        binding.adminInputSpinner.getSelectedItemFromDialog {
+            organizationViewModel.registerAdmin(Admin.fromItemString(it))
+        }
+        binding.organizationInputSpinner.getSelectedItemFromDialog {
+            organizationViewModel.registerOrganization(it)
+        }
         binding.organizationButton.setOnClickListener {
             organizationViewModel.organizationRegister(args.UserObject)
         }
     }
 
-    private fun initView() {
-        binding.run {
-//            organizationButton.setOnClickListener {
-//                findNavController().navigate(R.id.action_organizationRegisterFragment_to_avatarRegisterFragment)
-//            }
-            roleInputEditText.apply {
-                setUserInputListener {
-                    organizationViewModel.registerRole(it)
-                }
-                setEditTextBoxType(InputType.TYPE_CLASS_TEXT )
-                setEndDrawableIcon(
-                    ResourcesCompat.getDrawable(resources,R.drawable.drop_down,null)
-                )
-            }
-            adminInputEditText.apply {
-                setUserInputListener {
-                    organizationViewModel.registerAdmin(it)
-                }
-                setEditTextBoxType(InputType.TYPE_CLASS_TEXT)
-                setEndDrawableIcon(
-                    ResourcesCompat.getDrawable(resources,R.drawable.drop_down,null)
-                )
-            }
-            organizationInputEditText.apply {
-                setUserInputListener {
-                    organizationViewModel.registerOrganization(it)
-                }
-                setEditTextBoxType(InputType.TYPE_CLASS_TEXT)
-                setEndDrawableIcon(
-                    ResourcesCompat.getDrawable(resources,R.drawable.drop_down,null)
-                )
-            }
-        }
-    }
     private fun initObservers() {
+        showProgress()
+        setUpAdminForDialog()
         organizationViewModel.run {
             observerException(this)
+            getAllRoles()
+            getAllOrganization()
+            allRolesResponseLiveData.observe(viewLifecycleOwner) {
+                hideProgress()
+                it?.let { setUpRolesForDialog(it) }
+            }
+            allOrganizationResponseLiveData.observe(viewLifecycleOwner) {
+                hideProgress()
+                it?.let { setUpOrganizationForDialog(it) }
+            }
+            allRolesResponseErrorLiveData.observe(viewLifecycleOwner) {
+                showErrorDialog(getString(R.string.error), it.message)
+            }
+            allOrganizationResponseErrorLiveData.observe(viewLifecycleOwner) {
+                showErrorDialog(getString(R.string.error), it.message)
+            }
             enableOrganizationRegisterButtonLiveData.observe(viewLifecycleOwner) {
                 binding.organizationButton.isEnabled = it
                 binding.organizationButton.setButtonEnabled(it)
@@ -98,11 +94,63 @@ class OrganizationRegisterFragment : BaseFragment() {
                 val message = getString(R.string.empty_organization)
                 requireContext().showToast(message)
             }
-            userLiveData.observe(viewLifecycleOwner){
-                val action = OrganizationRegisterFragmentDirections.actionOrganizationRegisterFragmentToAvatarRegisterFragment(it)
+            userLiveData.observe(viewLifecycleOwner) {
+                val action =
+                    OrganizationRegisterFragmentDirections.actionOrganizationRegisterFragmentToAvatarRegisterFragment(
+                        it
+                    )
                 findNavController().navigate(action)
             }
         }
+    }
+
+    private fun setUpAdminForDialog() {
+        val isAdminItems = listOf(Admin.IS_ADMIN.toItemString(), Admin.IS_NOT_ADMIN.toItemString())
+        binding.adminInputSpinner.setUpDialogData(
+            isAdminItems,
+            getString(R.string.choose_admin_status),
+            null, null, null
+        )
+    }
+
+    private fun setUpOrganizationForDialog(organizationResponse: GetAllOrganizationResponse) {
+        val organizationItems = mutableListOf<String>()
+        for (organization in organizationResponse.organizations) {
+            organizationItems.add(organization.organizationName)
+        }
+        binding.organizationInputSpinner.setUpDialogData(
+            organizationItems,
+            getString(R.string.eg_google_amazon),
+            getString(R.string.cant_find_the_organization),
+            getString(R.string.create)
+        ) {
+            //Call to add entity if (it) == true
+        }
+    }
+
+    private fun setUpRolesForDialog(rolesResponse: GetAllRoleResponse) {
+        val rolesItems = mutableListOf<String>()
+        for (role in rolesResponse.roles) {
+            rolesItems.add(role.roleName)
+        }
+        binding.roleInputSpinner.setUpDialogData(
+            rolesItems,
+            getString(R.string.roles_text_hint),
+            getString(R.string.cant_fint_role),
+            getString(R.string.create)
+        ) {
+            //Call to add entity if (it) == true
+        }
+    }
+
+    private fun showProgress() {
+        disableClicks()
+        binding.progressAnimation.progressParent.show()
+    }
+
+    private fun hideProgress() {
+        binding.progressAnimation.progressParent.hide()
+        enableClicks()
     }
 
     override fun onDestroy() {
