@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.geekymusketeers.presin.R
@@ -15,6 +17,7 @@ import com.geekymusketeers.presin.databinding.FragmentOrganizationRegisterBindin
 import com.geekymusketeers.presin.models.Admin
 import com.geekymusketeers.presin.models.GetAllOrganizationResponse
 import com.geekymusketeers.presin.models.GetAllRoleResponse
+import com.geekymusketeers.presin.utils.Logger
 import com.geekymusketeers.presin.utils.hide
 import com.geekymusketeers.presin.utils.show
 import com.geekymusketeers.presin.utils.showToast
@@ -55,6 +58,9 @@ class OrganizationRegisterFragment : BaseFragment() {
         binding.organizationButton.setOnClickListener {
             organizationViewModel.organizationRegister(args.UserObject)
         }
+        binding.backButton.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun initObservers() {
@@ -82,14 +88,14 @@ class OrganizationRegisterFragment : BaseFragment() {
                 binding.organizationButton.isEnabled = it
                 binding.organizationButton.setButtonEnabled(it)
             }
+            progressBarLiveData.observe(viewLifecycleOwner){
+                binding.progressBar.progress = it
+            }
+            binding.progressBar.progress = 30
             isValidRole.observe(viewLifecycleOwner) {
                 val message = getString(R.string.empty_role)
                 requireContext().showToast(message)
             }
-//            isValidAdmin.observe(viewLifecycleOwner) {
-//                val message = getString(R.string.empty_admin)
-//                requireContext().showToast(message)
-//            }
             isValidOrganization.observe(viewLifecycleOwner) {
                 val message = getString(R.string.empty_organization)
                 requireContext().showToast(message)

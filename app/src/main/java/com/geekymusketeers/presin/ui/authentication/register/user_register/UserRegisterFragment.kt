@@ -46,9 +46,7 @@ class UserRegisterFragment : BaseFragment() {
     private fun handleOperation() {
 
         binding.run {
-//            registerButton.setOnClickListener {
-//                findNavController().navigate(R.id.action_userRegisterFragment_to_organizationRegisterFragment)
-//            }
+
             nameInputEditText.apply {
                 setUserInputListener {
                     userRegisterViewModel.registerName(it)
@@ -76,7 +74,7 @@ class UserRegisterFragment : BaseFragment() {
             bottomDualEditText.apply {
                 firstTextView.text = getString(R.string.already_have_an_account)
                 secondTextView.apply {
-                    text = context.getString(R.string.create)
+                    text = context.getString(R.string.login_text)
                     setOnClickListener {
                         findNavController().popBackStack()
                     }
@@ -92,6 +90,10 @@ class UserRegisterFragment : BaseFragment() {
             enableUserRegisterButtonLiveData.observe(viewLifecycleOwner) {
                 binding.registerButton.isEnabled = it
                 binding.registerButton.setButtonEnabled(it)
+
+            }
+            progressBarLiveData.observe(viewLifecycleOwner){
+                binding.progressBar.progress = it
             }
             isValidName.observe(viewLifecycleOwner) {
                 val message = getString(R.string.empty_name)
