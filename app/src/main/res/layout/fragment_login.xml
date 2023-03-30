@@ -61,6 +61,7 @@
                 android:layout_marginTop="20dp"
                 app:header="@string/password"
                 app:hint="@string/dummy_your_password"
+                app:isPassword="true"
                 app:layout_constraintEnd_toEndOf="@+id/email_input_edit_text"
                 app:layout_constraintStart_toStartOf="@+id/email_input_edit_text"
                 app:layout_constraintTop_toBottomOf="@+id/email_input_edit_text" />

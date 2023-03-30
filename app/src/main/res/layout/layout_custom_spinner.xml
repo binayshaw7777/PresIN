@@ -15,6 +15,18 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Header" />
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/spinner_edit_text_optional"
+        style="@style/MontserratRegular14sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/optional"
+        android:layout_marginStart="10dp"
+        android:visibility="gone"
+        android:textColor="@color/hint_color"
+        app:layout_constraintStart_toEndOf="@+id/spinner_edit_text_header"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/spinner_text_layout"
         android:layout_width="0dp"

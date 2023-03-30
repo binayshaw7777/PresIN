@@ -74,4 +74,6 @@
     <string name="eg_google_amazon">Eg. Google, Amazon...</string>
     <string name="cant_find_the_organization">Can\'t find the organization?</string>
     <string name="choose_admin_status">Choose admin status</string>
+    <string name="optional">(Optional)</string>
+    <string name="no_im_not_an_admin">No, I\'m not an Admin</string>
 </resources>

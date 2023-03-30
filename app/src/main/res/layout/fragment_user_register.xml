@@ -6,14 +6,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.authentication.register.user_register.UserRegisterFragment">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:max="100"
+        android:progress="0"
+        android:progressTint="@color/main_blue"
+        android:progressBackgroundTint="@color/hint_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toTopOf="@+id/register_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/progressBar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -26,11 +41,10 @@
                 style="@style/MontserratMedium24sp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:text="@string/let_s_get_you_registered"
                 android:textColor="@color/text_color"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/register_subtext_text_view"
@@ -61,6 +75,7 @@
                 android:layout_marginTop="20dp"
                 app:header="@string/email"
                 app:hint="@string/dummy_your_email"
+                app:inputType="32"
                 app:layout_constraintEnd_toEndOf="@+id/name_input_edit_text"
                 app:layout_constraintStart_toStartOf="@+id/name_input_edit_text"
                 app:layout_constraintTop_toBottomOf="@+id/name_input_edit_text" />
@@ -72,8 +87,8 @@
                 android:layout_marginTop="20dp"
                 app:header="@string/phone"
                 app:hint="@string/dummy_phone"
+                app:inputType="3"
                 app:layout_constraintEnd_toEndOf="@+id/email_input_edit_text"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/email_input_edit_text"
                 app:layout_constraintTop_toBottomOf="@+id/email_input_edit_text" />
 
@@ -84,25 +99,10 @@
                 android:layout_marginTop="20dp"
                 app:header="@string/enter_password"
                 app:hint="@string/dummy_your_password"
+                app:isPassword="true"
                 app:layout_constraintEnd_toEndOf="@+id/phone_input_edit_text"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/phone_input_edit_text"
                 app:layout_constraintTop_toBottomOf="@+id/phone_input_edit_text" />
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:max="100"
-                android:progress="0"
-                android:progressTint="@color/main_blue"
-                android:progressBackgroundTint="@color/hint_color"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

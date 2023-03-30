@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.geekymusketeers.presin.R
@@ -17,7 +15,6 @@ import com.geekymusketeers.presin.databinding.FragmentOrganizationRegisterBindin
 import com.geekymusketeers.presin.models.Admin
 import com.geekymusketeers.presin.models.GetAllOrganizationResponse
 import com.geekymusketeers.presin.models.GetAllRoleResponse
-import com.geekymusketeers.presin.utils.Logger
 import com.geekymusketeers.presin.utils.hide
 import com.geekymusketeers.presin.utils.show
 import com.geekymusketeers.presin.utils.showToast

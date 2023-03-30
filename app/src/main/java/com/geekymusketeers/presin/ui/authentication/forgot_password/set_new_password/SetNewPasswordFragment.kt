@@ -55,7 +55,6 @@ class SetNewPasswordFragment : BaseFragment() {
                 setUserInputListener {
                     setNewPasswordViewModel.setPassword(it)
                 }
-                setEditTextBoxType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)
                 setEndDrawableIcon(
                     ResourcesCompat.getDrawable(resources, R.drawable.pass_show, null)
                 )

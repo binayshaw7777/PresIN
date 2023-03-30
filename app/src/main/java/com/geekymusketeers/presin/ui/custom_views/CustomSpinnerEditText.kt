@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.geekymusketeers.presin.R
 import com.geekymusketeers.presin.databinding.LayoutCustomSpinnerBinding
+import com.geekymusketeers.presin.utils.show
 
 
 class CustomSpinnerEditText @JvmOverloads constructor(
@@ -21,6 +22,7 @@ class CustomSpinnerEditText @JvmOverloads constructor(
     private lateinit var binding: LayoutCustomSpinnerBinding
     private var spinnerList = mutableListOf<String>()
     private var editTextHint: String? = null
+    private var isOptional = false
     private var dualTextFirstString: String? = null
     private var dualTextSecondString: String? = null
     private lateinit var dualTextSecondStringOnClick: (isClicked: Boolean) -> Unit?
@@ -38,13 +40,16 @@ class CustomSpinnerEditText @JvmOverloads constructor(
         context.obtainStyledAttributes(attrs, R.styleable.SpinnerEditTextCustomLayout).apply {
             try {
                 val header = getString(R.styleable.SpinnerEditTextCustomLayout_header)
-                val inputEnabled = getBoolean(R.styleable.SpinnerEditTextCustomLayout_inputEnabled, true)
+                val inputEnabled =
+                    getBoolean(R.styleable.SpinnerEditTextCustomLayout_inputEnabled, true)
                 val hint = getString(R.styleable.SpinnerEditTextCustomLayout_hint)
                 val input = getString(R.styleable.SpinnerEditTextCustomLayout_input)
+                isOptional = getBoolean(R.styleable.SpinnerEditTextCustomLayout_optional, false)
                 setHeader(header)
                 setInputEnabled(inputEnabled)
                 setHint(hint)
                 setInput(input)
+                setOptional()
                 binding.spinnerTextLayout.setOnClickListener {
                     showDialog()
                 }
@@ -54,7 +59,18 @@ class CustomSpinnerEditText @JvmOverloads constructor(
         }
     }
 
-    fun setUpDialogData(inputList: List<String>, hint: String?, dualFirstText: String?, dualSecondText: String?, dualTextSecondStringOnClick: ((isClicked: Boolean) -> Unit?)?) {
+    private fun setOptional() {
+        if (isOptional)
+            binding.spinnerEditTextOptional.show()
+    }
+
+    fun setUpDialogData(
+        inputList: List<String>,
+        hint: String?,
+        dualFirstText: String?,
+        dualSecondText: String?,
+        dualTextSecondStringOnClick: ((isClicked: Boolean) -> Unit?)?
+    ) {
         spinnerList.apply {
             clear()
             addAll(inputList)
@@ -85,7 +101,10 @@ class CustomSpinnerEditText @JvmOverloads constructor(
             }
             onItemSelectedListener(it)
         }
-        dialog.show((context as AppCompatActivity).supportFragmentManager, "CustomSpinnerDialogFragment")
+        dialog.show(
+            (context as AppCompatActivity).supportFragmentManager,
+            "CustomSpinnerDialogFragment"
+        )
     }
 
     fun getSelectedItemFromDialog(listener: (item: String) -> Unit) {
@@ -113,6 +132,14 @@ class CustomSpinnerEditText @JvmOverloads constructor(
     }
 
     private fun setInput(text: String?) {
-        binding.spinnerTextView.text = text
+        binding.spinnerTextView.apply {
+            this.text = text
+            binding.spinnerTextView.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    R.color.text_color
+                )
+            )
+        }
     }
 }

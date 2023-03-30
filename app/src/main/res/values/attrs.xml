@@ -7,9 +7,12 @@
     <attr name="input" format="string" />
     <attr name="endIcon" format="integer" />
     <attr name="options" format="reference"/>
+    <attr name="inputType" format="integer"/>
     <attr name="minimumHeight" format="integer"/>
     <attr name="multiLine" format="boolean" />
     <attr name="FilterChips" format="reference" />
+    <attr name="optional" format="boolean" />
+    <attr name="isPassword" format="boolean" />
 
     <declare-styleable name="EditTextCustomLayout">
         <attr name="header" />
@@ -17,8 +20,11 @@
         <attr name="invalidInput" />
         <attr name="hint" />
         <attr name="input" />
+        <attr name="optional" />
+        <attr name="inputType" />
         <attr name="endIcon" />
         <attr name="minimumHeight" />
+        <attr name="isPassword" />
         <attr name="multiLine"/>
     </declare-styleable>
 
@@ -28,6 +34,7 @@
         <attr name="invalidInput" />
         <attr name="hint" />
         <attr name="input" />
+        <attr name="optional" />
         <attr name="endIcon" />
     </declare-styleable>
 

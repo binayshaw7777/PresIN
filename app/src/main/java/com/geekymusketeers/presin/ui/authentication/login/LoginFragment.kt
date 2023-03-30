@@ -43,6 +43,7 @@ class LoginFragment : BaseFragment() {
     private fun clickHandlers() {
         binding.loginButton.setOnClickListener {
             binding.loginButton.showButtonProgress()
+            hideKeyboard()
             loginViewModel.loginUser()
         }
         binding.forgotPasswordTextView.setOnClickListener {
@@ -59,7 +60,6 @@ class LoginFragment : BaseFragment() {
                 setUserInputListener {
                     loginViewModel.setPassword(it)
                 }
-                setEditTextBoxType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)
                 setEndDrawableIcon(
                     ResourcesCompat.getDrawable(resources, R.drawable.pass_show, null)
                 )

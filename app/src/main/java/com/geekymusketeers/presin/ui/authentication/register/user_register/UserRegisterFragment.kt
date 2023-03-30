@@ -1,7 +1,6 @@
 package com.geekymusketeers.presin.ui.authentication.register.user_register
 
 import android.os.Bundle
-import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,8 +29,8 @@ class UserRegisterFragment : BaseFragment() {
     ): View {
         _binding = FragmentUserRegisterBinding.inflate(layoutInflater, container, false)
 
-        handleOperation()
         initObservers()
+        handleOperation()
         clickHandlers()
 
         return binding.root
@@ -39,6 +38,7 @@ class UserRegisterFragment : BaseFragment() {
 
     private fun clickHandlers() {
         binding.registerButton.setOnClickListener {
+            hideKeyboard()
             userRegisterViewModel.userRegistration()
         }
     }
@@ -66,7 +66,6 @@ class UserRegisterFragment : BaseFragment() {
                 setUserInputListener {
                     userRegisterViewModel.registerPassword(it)
                 }
-                setEditTextBoxType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)
                 setEndDrawableIcon(
                     ResourcesCompat.getDrawable(resources,R.drawable.pass_show,null)
                 )
@@ -124,5 +123,4 @@ class UserRegisterFragment : BaseFragment() {
     }
 
     override fun getScreenName() = AnalyticsData.ScreenName.USER_REGISTER_FRAGMENT
-
 }

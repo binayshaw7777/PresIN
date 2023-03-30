@@ -1,5 +1,6 @@
 package com.geekymusketeers.presin.ui.custom_views
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.text.Editable
@@ -13,7 +14,6 @@ import android.view.LayoutInflater
 import android.view.inputmethod.InputMethodManager
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import com.geekymusketeers.presin.R
 import com.geekymusketeers.presin.databinding.LayoutCustomEditTextBinding
@@ -28,8 +28,9 @@ class CustomEditText @JvmOverloads constructor(
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     private lateinit var binding: LayoutCustomEditTextBinding
-    private var isRequired: Boolean = true
+    private var isOptional: Boolean = false
     private var passwordVisible: Boolean = false
+    private var isPassword: Boolean = false
     private val showPasswordResId: Int = R.drawable.pass_show
     private val hidePasswordResId: Int = R.drawable.pass_hide
 
@@ -38,6 +39,7 @@ class CustomEditText @JvmOverloads constructor(
     }
 
 
+    @SuppressLint("CustomViewStyleable")
     private fun initView(context: Context, attrs: AttributeSet?) {
         binding = LayoutCustomEditTextBinding.inflate(LayoutInflater.from(context), this, true)
         context.obtainStyledAttributes(attrs, R.styleable.EditTextCustomLayout).apply {
@@ -45,15 +47,24 @@ class CustomEditText @JvmOverloads constructor(
                 val header = getString(R.styleable.EditTextCustomLayout_header)
                 val endDrawableIcon = getDrawable(R.styleable.EditTextCustomLayout_endIcon)
                 val inputEnabled = getBoolean(R.styleable.EditTextCustomLayout_inputEnabled, true)
+                isOptional = getBoolean(R.styleable.EditTextCustomLayout_optional, false)
                 val hint = getString(R.styleable.EditTextCustomLayout_hint)
                 val input = getString(R.styleable.EditTextCustomLayout_input)
+                isPassword = getBoolean(R.styleable.EditTextCustomLayout_isPassword, false)
                 val minHeight = getInt(R.styleable.EditTextCustomLayout_minimumHeight, 0)
                 val isMultipleLine = getBoolean(R.styleable.EditTextCustomLayout_multiLine, false)
+                val inputType = getInt(R.styleable.EditTextCustomLayout_inputType, InputType.TYPE_CLASS_TEXT)
                 setHeader(header)
                 setEndDrawableIcon(endDrawableIcon)
                 setEditTextBoxEnabled(inputEnabled)
                 setHint(hint)
                 setEditTextBox(input)
+                setOptional()
+                if (isPassword) {
+                    setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)
+                } else {
+                    setInputType(inputType)
+                }
                 if (isMultipleLine) {
                     switchToMultiLined()
                 }
@@ -78,6 +89,15 @@ class CustomEditText @JvmOverloads constructor(
                 }
             }
         }
+    }
+
+    private fun setInputType(inputType: Int) {
+        binding.editTextBox.inputType = inputType
+    }
+
+    private fun setOptional() {
+        if (isOptional)
+            binding.editTextOptional.show()
     }
 
     private fun hideKeyboard() {
@@ -129,17 +149,8 @@ class CustomEditText @JvmOverloads constructor(
         binding.editTextBox.setText(text)
     }
 
-//    fun setRequiredInput(isRequired: Boolean) {
-//        this.isRequired = isRequired
-//        binding.tvRequiredAsterisk.isVisible = isRequired
-//    }
-
     fun setImeOptionType(imeOption: Int) {
         binding.editTextBox.imeOptions = imeOption
-    }
-
-    fun setEditTextBoxType(inputType: Int) {
-        binding.editTextBox.inputType = inputType
     }
 
     fun setMultiLined(maxLength: Int) {
