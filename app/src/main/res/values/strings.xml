@@ -16,9 +16,9 @@
     <string name="dont_have_an_account">Don\'t have an account?</string>
     <string name="create">Create</string>
     <string name="login_text">Log in</string>
-    <string name="enter_password">Enter you password</string>
-    <string name="name">Enter your name</string>
-    <string name="phone">Enter your phone</string>
+    <string name="enter_password">Password</string>
+    <string name="name">Name</string>
+    <string name="phone">Phone</string>
     <string name="dummy_name">John Doe</string>
     <string name="dummy_phone">+91-798-084-5394</string>
     <string name="nextstep">Next Step</string>

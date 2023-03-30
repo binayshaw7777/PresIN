@@ -20,6 +20,9 @@ fun Long.getYearMonthDay(): String {
     simpleDateFormat.timeZone = TimeZone.getDefault()
     return simpleDateFormat.format(date)
 }
+fun getTimeStamp(): Long {
+    return System.currentTimeMillis()
+}
 
 @Throws(ParseException::class)
 fun String.getDateUnixTime(): Long {

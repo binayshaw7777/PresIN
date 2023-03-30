@@ -1,5 +1,6 @@
 package com.geekymusketeers.presin.ui.authentication.register.face_scan_register
 
+import android.app.Activity
 import android.graphics.*
 import android.media.Image
 import android.os.Bundle
@@ -11,8 +12,9 @@ import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.view.PreviewView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.geekymusketeers.presin.R
@@ -20,16 +22,24 @@ import com.geekymusketeers.presin.analytics.AnalyticsData
 import com.geekymusketeers.presin.base.BaseFragment
 import com.geekymusketeers.presin.base.ViewModelFactory
 import com.geekymusketeers.presin.databinding.FragmentFaceScanRegisterBinding
-import com.geekymusketeers.presin.utils.invisible
-import com.geekymusketeers.presin.utils.show
-import com.geekymusketeers.presin.utils.showToast
+import com.geekymusketeers.presin.utils.*
+import com.google.android.gms.tasks.Task
+import com.google.common.util.concurrent.ListenableFuture
+import com.google.gson.Gson
 import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.face.FaceDetection
+import com.google.mlkit.vision.face.FaceDetector
 import com.google.mlkit.vision.face.FaceDetectorOptions
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import org.tensorflow.lite.Interpreter
 import java.io.ByteArrayOutputStream
+import java.io.FileInputStream
+import java.io.IOException
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
+import java.nio.MappedByteBuffer
 import java.nio.ReadOnlyBufferException
+import java.nio.channels.FileChannel
 import java.util.concurrent.Executors
 import kotlin.experimental.inv
 
@@ -39,41 +49,72 @@ class FaceScanRegisterFragment : BaseFragment() {
     private val args: FaceScanRegisterFragmentArgs by navArgs()
     private var _binding: FragmentFaceScanRegisterBinding? = null
     private val binding get() = _binding!!
-    private lateinit var detector : Any
+    private var map: MutableMap<String, SimilarityClassifier.Recognition> = mutableMapOf() //To store a embedding with a key -> "added" in this map
+    private lateinit var detector: FaceDetector
+    var modelFile = "mobile_face_net.tflite" //model name
+    private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
+    private lateinit var previewView: PreviewView
+
+    private lateinit var cameraSelector: CameraSelector
+    private lateinit var cameraProvider: ProcessCameraProvider
+    private val inputSize = 112
+    private lateinit var intValues: IntArray
+    private val isModelQuantized = false
+    private val IMAGE_MEAN = 128.0f
+    private val IMAGE_STD = 128.0f
+    private val OUTPUT_SIZE = 192 //Output size of model
+    private var tfLite: Interpreter? = null
+    private lateinit var embeddings: Array<FloatArray>
+
     private val faceScanViewModel: FaceScanViewModel by viewModels {
         ViewModelFactory()
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentFaceScanRegisterBinding.inflate(layoutInflater, container, false)
 
-        initialization()
         initObservers()
         initViews()
         clickHandlers()
+
         return binding.root
     }
 
-    private fun initialization() {
+    private fun initViews() {
+        //Load model file
+        try {
+            tfLite = loadModelFile(requireActivity(), modelFile)?.let { Interpreter(it) }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
         //Initialize Face Detector
         val highAccuracyOpts = FaceDetectorOptions.Builder()
             .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)
             .build()
         detector = FaceDetection.getClient(highAccuracyOpts)
-    }
 
-    private fun initViews() {
         cameraBind()
     }
 
     private fun clickHandlers() {
         binding.addFaceButton.setOnClickListener {
+            addFace()
         }
         binding.backButton.setOnClickListener {
             findNavController().popBackStack()
+        }
+        binding.submitButton.setOnClickListener {
+            if (map.containsKey("added")) {
+                val stringJson = getFromMap(map) //we convert the map into a string by calling a function and passing the map
+                Logger.debugLog("String JSON is: $stringJson")
+                faceScanViewModel.registerFace(stringJson, args.UserObject, getTimeStamp())
+            } else {
+                Logger.debugLog("Face not added")
+            }
+
         }
     }
 
@@ -81,42 +122,71 @@ class FaceScanRegisterFragment : BaseFragment() {
     private fun initObservers() {
         faceScanViewModel.run {
             observerException(this)
-            enableFaceScanButtonLiveData.observe(viewLifecycleOwner) {
+            enableFaceAddButtonLiveData.observe(viewLifecycleOwner) {
                 binding.addFaceButton.isEnabled = it
                 binding.addFaceButton.setButtonEnabled(it)
+            }
+            enableFaceScanButtonLiveData.observe(viewLifecycleOwner) {
+                binding.submitButton.isEnabled = it
+                binding.submitButton.setButtonEnabled(it)
             }
             progressBarLiveData.observe(viewLifecycleOwner) {
                 binding.progressBar.progress = it
             }
             binding.progressBar.progress = 75
             isValidFace.observe(viewLifecycleOwner) {
-                val message = getString(R.string.empty_face)
-                requireContext().showToast(message)
+                if (it.not()) {
+                    val message = getString(R.string.empty_face)
+                    requireContext().showToast(message)
+                }
             }
             errorLiveData.observe(viewLifecycleOwner) {
-                //Show an error message
+
                 showErrorDialog(getString(R.string.error), it.message)
             }
+            userRegisterResponseLiveData.observe(viewLifecycleOwner){
+                requireContext().showToast(it.message)
+//                findNavController().popBackStack(R.id.loginFragment,false)
+                findNavController().popBackStack(R.id.loginFragment, false)
+            }
+            userLiveData.observe(viewLifecycleOwner) {
+                Logger.debugLog("Final user is: $it")
+            }
+        }
+    }
+
+    //Function to add face or store embeddings in a hashmap
+    private fun addFace() {
+        try {
+            if (map.isNotEmpty()) map.clear() //If the hashmap is not empty (the hashmap has previously stored embeddings -> Remove/Clear it)
+            val result = SimilarityClassifier.Recognition("0", "", -1f)
+            result.extra = embeddings
+            map["added"] = result //added the Embedding to hashmap
+            Logger.debugLog("Face added successfully: $result")
+            faceScanViewModel.addFace(true)
+        } catch (e: java.lang.Exception) {
+            Logger.debugLog("Error caught at add face: ${e.message}")
         }
     }
 
     private fun cameraBind() {
-
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
-        val previewView = binding.previewView
-
-        lifecycleScope.launch(Dispatchers.Main) {
+        Logger.debugLog("Camera bind started")
+        cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
+        previewView = binding.previewView
+        cameraProviderFuture.addListener({
             try {
-//                bindPreview(cameraProviderFuture)
-            } catch (e: Exception) {
-                // Handle exception
+                cameraProvider = cameraProviderFuture.get()
+                bindPreview(cameraProvider)
+            } catch (e: java.lang.Exception) {
+                Logger.debugLog("Error is: ${e.message}")
             }
-        }
+        }, ContextCompat.getMainExecutor(requireActivity()))
     }
 
     private fun bindPreview(cameraProvider: ProcessCameraProvider) {
+        Logger.debugLog("Bind preview started")
         val preview = Preview.Builder().build()
-        val cameraSelector = CameraSelector.Builder()
+        cameraSelector = CameraSelector.Builder()
             .requireLensFacing(CameraSelector.LENS_FACING_FRONT)
             .build()
         preview.setSurfaceProvider(binding.previewView.surfaceProvider)
@@ -131,42 +201,94 @@ class FaceScanRegisterFragment : BaseFragment() {
         imageAnalysis.setAnalyzer(executor) { imageProxy ->
             runCatching {
                 Thread.sleep(10) // Camera preview refreshed every 10 millis (adjust as required)
-//                val mediaImage = imageProxy.image ?: return@runCatching
-                //val image =
-                    //InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
+                Logger.debugLog("This is inside runCatching")
+                val mediaImage = imageProxy.image!!
+                val image =
+                    InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
 
                 // Process acquired image to detect faces
-//                detector.process(image)
-//                    .addOnSuccessListener { faces ->
-//                        if (faces.isNotEmpty()) {
-//                            val face = faces[0] // Get first face from detected faces
-//                            val frameBmp = toBitmap(mediaImage)
-//
-//                            val rot = imageProxy.imageInfo.rotationDegrees
-//
-//                            val frameBmp1 = rotateBitmap(frameBmp, rot, false)
-//
-//                            val boundingBox = RectF(face.boundingBox)
-//
-//                            val croppedFace = getCropBitmapByCPU(frameBmp1, boundingBox)
-//
-//                            val scaled = getResizedBitmap(croppedFace, 112, 112)
-//
-//                            recognizeImage(scaled) // Send scaled bitmap to create face embeddings.
-//                        } else {
-//                            binding.addFaceButton.invisible() // If no face is detected, remove the 'Add Face' button from view
-//                        }
-//                    }
-//                    .addOnFailureListener { e -> /* Task failed with an exception */ }
-//                    .await()
-            }.onFailure { e -> /* Handle exception */ }
-                .onSuccess { imageProxy.close() } // Very important to acquire next frame for analysis
+                val result: Task<List<Face>> = detector.process(image)
+                    .addOnSuccessListener { faces ->
+                        Logger.debugLog("Faces are: $faces")
+                        if (faces.isNotEmpty()) {
+                            val face = faces[0] // Get first face from detected faces
+                            val frameBmp = toBitmap(mediaImage)
+
+                            val rot = imageProxy.imageInfo.rotationDegrees
+
+                            val frameBmp1 = frameBmp?.let { rotateBitmap(it, rot, false) }
+
+                            val boundingBox = RectF(face.boundingBox)
+
+                            val croppedFace = getCropBitmapByCPU(frameBmp1, boundingBox)
+
+                            //Scale the acquired Face to 112*112 which is required input for model
+                            val scaled = croppedFace?.let { getResizedBitmap(it, 112, 112) }
+
+                            if (scaled != null) {
+                                recognizeImage(scaled)
+                            } // Send scaled bitmap to create face embeddings.
+                        } else {
+                            faceScanViewModel.setFaceVisible(false)
+                        }
+                    }
+                    .addOnFailureListener { e -> /* Task failed with an exception */
+                        Logger.debugLog("onFailureListener: ${e.message}")
+                    }.addOnCompleteListener {
+                        imageProxy.close()
+                    }
+            }.onFailure { e -> /* Handle exception */
+                Logger.debugLog("onFailure: ${e.message}")
+            }
+                .onSuccess {
+                    Logger.debugLog("on Success")
+                } // Very important to acquire next frame for analysis
         }
 
         cameraProvider.bindToLifecycle(this, cameraSelector, imageAnalysis, preview)
     }
 
+    private fun recognizeImage(bitmap: Bitmap) {
+        Logger.debugLog("Recognize image started")
+
+        faceScanViewModel.setFaceVisible(true)
+
+        //Create ByteBuffer to store normalized image
+        val imgData = ByteBuffer.allocateDirect(inputSize * inputSize * 3 * 4)
+        imgData.order(ByteOrder.nativeOrder())
+        intValues = IntArray(inputSize * inputSize)
+
+        //get pixel values from Bitmap to normalize
+        bitmap.getPixels(intValues, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
+        imgData.rewind()
+        for (i in 0 until inputSize) {
+            for (j in 0 until inputSize) {
+                val pixelValue: Int = intValues.get(i * inputSize + j)
+                if (isModelQuantized) {
+                    // Quantized model
+                    imgData.put((pixelValue shr 16 and 0xFF).toByte())
+                    imgData.put((pixelValue shr 8 and 0xFF).toByte())
+                    imgData.put((pixelValue and 0xFF).toByte())
+                } else { // Float model
+                    imgData.putFloat(((pixelValue shr 16 and 0xFF) - IMAGE_MEAN) / IMAGE_STD)
+                    imgData.putFloat(((pixelValue shr 8 and 0xFF) - IMAGE_MEAN) / IMAGE_STD)
+                    imgData.putFloat(((pixelValue and 0xFF) - IMAGE_MEAN) / IMAGE_STD)
+                }
+            }
+        }
+        //imgData is input to our model
+        val inputArray = arrayOf<Any>(imgData)
+        val outputMap: MutableMap<Int, Any> = HashMap()
+        embeddings =
+            Array(1) { FloatArray(OUTPUT_SIZE) } //output of model will be stored in this variable
+        Logger.debugLog("Embeddings is init: $embeddings")
+        outputMap[0] = embeddings
+        tfLite?.runForMultipleInputsOutputs(inputArray, outputMap) //Run model
+    }
+
     private fun rotateBitmap(bitmap: Bitmap, rotationDegrees: Int, flipX: Boolean): Bitmap? {
+        Logger.debugLog("Rotate bitmap started")
+
         val matrix = Matrix()
 
         // Rotate the image back to straight.
@@ -185,6 +307,8 @@ class FaceScanRegisterFragment : BaseFragment() {
     }
 
     private fun getCropBitmapByCPU(source: Bitmap?, cropRectF: RectF): Bitmap? {
+        Logger.debugLog("getCropBitmapByCPU started")
+
         val resultBitmap = Bitmap.createBitmap(
             cropRectF.width().toInt(),
             cropRectF.height().toInt(),
@@ -202,13 +326,15 @@ class FaceScanRegisterFragment : BaseFragment() {
         val matrix = Matrix()
         matrix.postTranslate(-cropRectF.left, -cropRectF.top)
         canvas.drawBitmap(source!!, matrix, paint)
-        if (source != null && !source.isRecycled) {
+        if (!source.isRecycled) {
             source.recycle()
         }
         return resultBitmap
     }
 
     private fun getResizedBitmap(bm: Bitmap, newWidth: Int, newHeight: Int): Bitmap? {
+        Logger.debugLog("getResizedBitmap started")
+
         val width = bm.width
         val height = bm.height
         val scaleWidth = newWidth.toFloat() / width
@@ -227,6 +353,8 @@ class FaceScanRegisterFragment : BaseFragment() {
     }
 
     private fun toBitmap(image: Image): Bitmap? {
+        Logger.debugLog("toBitmap started")
+
         val nv21 = YUV_420_888toNV21(image)
         val yuvImage = YuvImage(nv21, ImageFormat.NV21, image.width, image.height, null)
 
@@ -236,7 +364,10 @@ class FaceScanRegisterFragment : BaseFragment() {
         val imageBytes = out.toByteArray()
         return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
     }
+
     private fun YUV_420_888toNV21(image: Image): ByteArray {
+        Logger.debugLog("YUV_420_888toNV21 started")
+
         val width = image.width
         val height = image.height
         val ySize = width * height
@@ -306,10 +437,30 @@ class FaceScanRegisterFragment : BaseFragment() {
 
         return nv21
     }
+
+    //Convert hashmap to string, basically to pass and store it in firebase
+    private fun getFromMap(json: MutableMap<String, SimilarityClassifier.Recognition>): String {
+        Logger.debugLog("getFromMap started")
+
+        return Gson().toJson(json)
+    }
+
+    //Loads model file
+    @Throws(IOException::class)
+    private fun loadModelFile(activity: Activity, MODEL_FILE: String): MappedByteBuffer? {
+        Logger.debugLog("loadModelFile started")
+
+        val fileDescriptor = activity.assets.openFd(MODEL_FILE)
+        val inputStream = FileInputStream(fileDescriptor.fileDescriptor)
+        val fileChannel = inputStream.channel
+        val startOffset = fileDescriptor.startOffset
+        val declaredLength = fileDescriptor.declaredLength
+        return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
-
     override fun getScreenName() = AnalyticsData.ScreenName.FACE_SCAN_REGISTER_FRAGMENT
 }
